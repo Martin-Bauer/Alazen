@@ -1,6 +1,6 @@
 # Project VGB
 
-## How to add yourself to this repo
+## How to clone this Repository
 
 ### 1) Make github account
 
@@ -24,26 +24,10 @@ Now you have a (remote copy) where you can push to.
 
 ### 5) Clone your forked repo
 
-    $ git clone git@github.com:your-github-name/tutorial.git
+    $ git clone git@github.com:hu-semesterprojekt-genombrowser/VGB.git
 
-### 6) Add file with your name
-
-    $ touch your_name
-
-### 7) Commit
-
-    $ git add your_name
-    $ git commit -m 'add myself'
-
-### 8) Push to your forked github repo
-
-    $ git push origin master
-
-### 9) Visit the forked repo on github
+### 6) Visit the forked repo on github
 
 https://github.com/your-github-name/tutorial
 
-### 10) Click "Pull request", write something, and submit
-
-\o/
 
