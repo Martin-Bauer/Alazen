@@ -1,0 +1,140 @@
+\documentclass{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage [german=quotes] {csquotes}
+\usepackage {soul}
+\usepackage{fancyhdr} %Header
+\usepackage{tikz} %grahen
+\usepackage{booktabs} %dicke Linien für Tabellen
+\usepackage{longtable}
+\usetikzlibrary{arrows}
+
+\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+
+\title{Verteiltes Genom Browsing}
+\subtitle{Projektplan}
+\author{Malte Kruse, Ben Schumacher}
+
+
+\begin{document}
+\maketitle
+\newpage
+%\pagestyle{fancy}
+%\fancyhf{}
+%\ofoot{\pagemark}
+%\rfoot{\pagemark}
+%\lhead{Ben Schumacher (560493)\\Übungsblatt \arabic{nummerDesBlattes}\\Mittwoch 11-13 Uhr }
+%\rhead{\textsc{Humboldt-Universität zu Berlin,\\
+%Institut für Informatik}\\
+%\textbf{Logik in der Informatik}}
+%\hfill
+%\section*{Projektplan}
+\begin{longtable}{| l | p{14cm} |}
+\hline
+\textbf{Wann?} & \textbf{Was?} \\
+\hline
+26.10.15 & In einem Bericht (PDF) per Mail bis 26.10.15, 9.00 Uhr (Montag)
+\begin{itemize}
+  \item Projektstruktur (Teilprojekte, Projektleitung)
+  \item Zuordnung Studierende – Teilprojekte
+  \item Grobe Charakterisierung der Aufgaben pro Teilprojekt
+  \item Informelle Beschreibung von 3 Use Cases
+  \item Liste und Status geplanter Projektmanagementtools 
+\end{itemize}\\
+ \hline
+02.11.15 & In einem Bericht (PDF) per Mail bis 2.11.15, 9.00 Uhr (Montag)
+\begin{itemize}
+  \item Projektstruktur 2. Revision
+  \item Projektplan
+  \item Style Guide
+  \item Grobspezifikation aller Teilprojekte
+\end{itemize}\\
+\hline
+09.11.15 & \begin{itemize}
+ \item Projektplan 2nd Revision
+\end{itemize}\\
+\hline
+10.11.15 & \begin{itemize}
+ \item Bekanntgabe des (vorläufigen) Namens durch die Projektleitung
+\end{itemize}\\
+\hline
+14.11.15 & \begin{itemize}
+ \item \underline{1. Meilenstein}: Projektplan
+\end{itemize}\\
+\hline
+30.11.15 & Projektspezifikation
+\begin{itemize}
+  \item Modelle aller Teilprojekte (Schemata, UML, etc.) 
+  \item Exakte Beschreibung Integrationsprozess (welche Quelle, Attributauswahl und -mapping,  Mengengerüst, Modellierung des DWH)
+  \item Schnittstellenspezifikation (DB-Middelware, Middleware-Frontend)
+  \item Definition Komponententests (Unit-Tests), Stresstests (Middleware), Integrationstests
+  \item Formale Beschreibung Indexstruktur, Operationen als Pseudocode, Komplexitätsabschätzungen
+  \item Mock-Ups Benutzerschnittstelle
+  \item Sequence-charts für den Ablauf jeder zentralen Funktionen vom UI zur Infrastruktur und zurück
+\end{itemize}\\
+\hline
+01.12.15 & \begin{itemize}
+ \item Präsentation Projektspezifikation
+\end{itemize}\\
+\hline
+07.12.15 & \underline{2. Meilenstein}: Lauffähige Version mit lauffähiger GUI
+\begin{itemize}
+ \item Erste, mit (Test-)daten, lauffähige Version des Programms (GUI, Middleware, Integration)
+ \begin{itemize} 
+  \item Erste Version des Index
+  \item Mit Testdaten gefülltes DWH
+  \item Suchanfragen, Darstellung in Lanes, Referenzgenomanzeige
+ \end{itemize}
+ \item Zwischenstand Dokumentation an Projektleitung
+\end{itemize}\\
+\hline
+12.12.15 & \begin{itemize}
+ \item Lauffähige Version des Programms mit mind. einer Hauptdatenbank
+ \item Erste Version mit einem verbesserten Ansatz des verteilten Indizes
+ \item Bericht der Teilgruppenleiter über den Stand ihrer Teilprojekte
+ \item Zwischenreview: Stand aller Teilprojekte 
+\end{itemize}\\
+\hline
+04.01.16 & Implementationen Teilprojekte
+\begin{itemize}
+ \item Funkionierendes UI (ggf. mit Testdaten)
+ \item Schnelle Middleware (ggf. mit Testdaten) 
+ \item Integrierte Datenbank (alle Datenbanken)
+ \item Ergebnisse Unit-Tests 
+ \item Beginn der Betatests, Code Reviews, Bug Fixes
+\end{itemize}\\
+\hline
+11.01.16 & \begin{itemize}
+ \item Erste vollständige Version der Dokumentation des Systems
+ \item ReadMe zur Verwendung des Systems
+ \item Erste Version des Posters zur Software
+\end{itemize}\\
+\hline
+25.01.16 & \begin{itemize}
+ \item Schlüsselfertiges, dokumentiertes System 
+\end{itemize}\\
+\hline
+01.02.16 & \begin{itemize}
+ \item Fertigstellung der endgültigen Version des Posters
+\end{itemize}\\
+\hline
+09.02.16 & \begin{itemize}
+ \item Projektpräsentation, Postervorstellung, Abnahme
+\end{itemize}\\
+\hline
+14.02.16 & \begin{itemize}
+ \item \underline{Dritter Meilenstein}: Projektabschluss
+\end{itemize}\\
+\hline
+16.02.16 & \begin{itemize}
+ \item Projektabschluss
+\end{itemize}\\
+\hline
+\end{longtable}
+
+\end{document}
