@@ -1,0 +1,80 @@
+\documentclass{scrartcl}
+
+\usepackage[utf8]{inputenc}
+\usepackage[T1]{fontenc}
+\usepackage{lmodern}
+\usepackage[ngerman]{babel}
+\usepackage{amsmath, amsfonts, amssymb}
+\usepackage{graphicx}
+\usepackage [german=quotes] {csquotes}
+\usepackage {soul}
+\usepackage{fancyhdr} %Header
+\usepackage{booktabs} %dicke Linien für Tabellen
+\usepackage{longtable}
+\usepackage{listings}
+
+\renewcommand{\headrulewidth}{0pt}
+
+\title{Verteiltes Genom Browsing}
+\subtitle{Java-Styleguide}
+\author{Malte Kruse, Ben Schumacher}
+
+\setkomafont{subtitle}{\bfseries \LARGE}
+
+
+\begin{document}
+\pagestyle{fancy}
+%\fancyhf{}
+\cfoot{}
+\rfoot{\pagemark}
+%\lhead{Ben Schumacher (560493)\\Übungsblatt \arabic{nummerDesBlattes}\\Mittwoch 11-13 Uhr }
+%\rhead{\textsc{Humboldt-Universität zu Berlin,\\
+%Institut für Informatik}\\
+%\textbf{Logik in der Informatik}}
+%\hfill
+%\section*{Projektplan}
+\maketitle
+\thispagestyle{empty}
+\newpage
+
+\begin{itemize}
+\item Einrückung nur mit Leerzeichen, keine Tabs. Je zwei Leerzeichen pro Einrückung.
+\item  Klassennamen groß und als CamelCase, z.B.:
+\begin{lstlisting}
+MyNewClassWithAVeryLongAndMeaninglessName
+\end{lstlisting}
+\item  Namen von Funktionen und Methoden Klein und CamelCase, z.B.
+\begin{lstlisting}
+     myPublicMethod()
+\end{lstlisting}
+\item Variablennamen klein und CamelCase. Der erster Buchstabe beschreibt den\\
+Datentype (x bei Klassen) z.B.
+\begin{lstlisting}
+	boolean b_IsValid
+	MyClass x_MyVariable
+\end{lstlisting}
+\item Aussagekräftige Variablennamen
+\item Variablen- und Methodennamen werden in Englisch gewählt
+\item Die Dokumentation erfolgt auf Deutsch
+\item Methoden in der Form
+\begin{lstlisting}
+	void myMethod() {
+	  //do stuff
+	  return;
+	}
+\end{lstlisting}
+\item if bzw. else Bedingungen in der Form
+\begin{lstlisting}
+	if (true) {
+	  //do stuff
+	} else {
+	  //do other stuff
+	} 
+\end{lstlisting}
+\item static final Variablen in Uppercase, z.b.
+\begin{lstlisting}
+	MY_FINAL_NUMBER
+\end{lstlisting}
+\end{itemize}
+
+\end{document}

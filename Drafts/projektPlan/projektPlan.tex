@@ -14,26 +14,29 @@
 \usepackage{longtable}
 \usetikzlibrary{arrows}
 
-\newcommand{\tabitem}{~~\llap{\textbullet}~~}
+\renewcommand{\headrulewidth}{0pt}
 
 \title{Verteiltes Genom Browsing}
 \subtitle{Projektplan}
 \author{Malte Kruse, Ben Schumacher}
 
+\setkomafont{subtitle}{\bfseries \LARGE}
 
 \begin{document}
-\maketitle
-\newpage
-%\pagestyle{fancy}
+\pagestyle{fancy}
 %\fancyhf{}
-%\ofoot{\pagemark}
-%\rfoot{\pagemark}
+\cfoot{}
+\rfoot{\pagemark}
 %\lhead{Ben Schumacher (560493)\\Übungsblatt \arabic{nummerDesBlattes}\\Mittwoch 11-13 Uhr }
 %\rhead{\textsc{Humboldt-Universität zu Berlin,\\
 %Institut für Informatik}\\
 %\textbf{Logik in der Informatik}}
 %\hfill
 %\section*{Projektplan}
+\maketitle
+\thispagestyle{empty}
+\newpage
+
 \begin{longtable}{| l | p{14cm} |}
 \hline
 \textbf{Wann?} & \textbf{Was?} \\
@@ -86,7 +89,7 @@
 \begin{itemize}
  \item Erste, mit (Test-)daten, lauffähige Version des Programms (GUI, Middleware, Integration)
  \begin{itemize} 
-  \item Erste Version des Index
+  \item Erste Version des Index, muss nicht parallel laufen
   \item Mit Testdaten gefülltes DWH
   \item Suchanfragen, Darstellung in Lanes, Referenzgenomanzeige
  \end{itemize}
@@ -94,13 +97,31 @@
 \end{itemize}\\
 \hline
 12.12.15 & \begin{itemize}
- \item Lauffähige Version des Programms mit mind. einer Hauptdatenbank
- \item Erste Version mit einem verbesserten Ansatz des verteilten Indizes
+ \item Lauffähige Version des Programms mit mind. einer eingebundenen Hauptdatenbank
+ \item Erste Version mit einem verbesserten Ansatz des verteilten Index.
+ \item Der Index läuft parallel 
+ \item Verbessertes GUI, bei der fehlerhafte Benutzereingaben vollständig behandelt werden.
  \item Bericht der Teilgruppenleiter über den Stand ihrer Teilprojekte
  \item Zwischenreview: Stand aller Teilprojekte 
 \end{itemize}\\
 \hline
-04.01.16 & Implementationen Teilprojekte
+19.12.15 & \underline{3. Meilenstein}: \begin{itemize}
+ \item Lauffähige Version des Programms mit mind. zwei eingebundenen Hauptdatenbanken
+ \item Eine erste Version der Datenbankintegrationsmöglichkeit für Benutzer steht zur Verfügung
+ \item Der verteilte Index läuft auf allen 4 VMs
+ \item Die GUI bietet erste Konfigurationsmöglichkeiten
+\end{itemize}
+\\
+\hline
+29.12.15 & \begin{itemize} 
+ \item Lauffähige Version des Programms mit allen vier eingebundenen Hauptdatenbanken
+ \item Die Integration neuer, vom Benutzer gewünschte Datenbanken funktioniert problemlos
+ \item Der verteilte Index erfüllt nun die Zeitanforderungen
+ \item In der GUI stehen alle Konfigurationsmöglichketiten stehen zur Verfügung
+\end{itemize}
+\\
+\hline
+04.01.16 & \underline{4. Meilenstein}: Implementationen Teilprojekte
 \begin{itemize}
  \item Funkionierendes UI (ggf. mit Testdaten)
  \item Schnelle Middleware (ggf. mit Testdaten) 
@@ -115,7 +136,7 @@
  \item Erste Version des Posters zur Software
 \end{itemize}\\
 \hline
-25.01.16 & \begin{itemize}
+25.01.16 & \underline{5. Meilenstein}: \begin{itemize}
  \item Schlüsselfertiges, dokumentiertes System 
 \end{itemize}\\
 \hline
@@ -128,7 +149,7 @@
 \end{itemize}\\
 \hline
 14.02.16 & \begin{itemize}
- \item \underline{Dritter Meilenstein}: Projektabschluss
+ \item \underline{6. Meilenstein}: Projektabschluss
 \end{itemize}\\
 \hline
 16.02.16 & \begin{itemize}
