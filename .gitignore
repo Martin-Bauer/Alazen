@@ -2,3 +2,8 @@
 *.aux
 *.log
 *.synctex.gz
+*.nav
+*.out
+*.out
+*.toc
+*.snm

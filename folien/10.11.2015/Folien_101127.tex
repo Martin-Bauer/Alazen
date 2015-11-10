@@ -1,0 +1,117 @@
+%Danke an Samuel Brack für die Vorlage
+\documentclass{beamer}
+\usepackage{ngerman}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts,amssymb,dsfont}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{automata}
+\usetheme{HUmetrics}
+\usecolortheme{default}
+\usefonttheme{serif}
+%\useinnertheme{circles}
+\setbeamertemplate{navigation symbols}{}
+\lstset{language=[LaTeX]TeX,
+	basicstyle=\tiny,
+	stringstyle=\ttfamily,
+	commentstyle=,
+	tabsize=2,
+	numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+	frame=single,
+	framerule=0.1pt,
+	keywordstyle=\color{blue},
+    xleftmargin=15pt,
+	xrightmargin=15pt,
+    literate={ä}{{\"a}}1 {Ü}{{\"U}}1 {~}{{\textasciitilde}}1
+}
+
+
+\title[VGB]{Semesterprojekt Verteiltes Genom Browsing}
+\subtitle{Projektplan\\Wahl des Projektnames}
+\author[Kruse,Schumacher]{Malte Kruse\\Ben Schumacher}
+\institute{Institut für Informatik\\Humboldt-Universität zu Berlin}
+\date{10.11.2015}
+
+\begin{document}
+
+% Titelseite
+\begin{frame}
+	\titlepage
+\end{frame}
+
+% Projektspezifikation
+\begin{frame}
+	\frametitle{Projektspezifikation}
+	30.11.2015:
+	\begin{itemize}
+	  \item Modelle aller Teilprojekte (Schemata, UML, etc.) 
+	  \item Exakte Beschreibung Integrationsprozess (welche Quelle, Attributauswahl und -mapping,  Mengengerüst, Modellierung des DWH)
+	  \item Schnittstellenspezifikation (DB-Middelware, Middleware-Frontend)
+	  \item Definition Komponententests (Unit-Tests), Stresstests (Middleware), Integrationstests
+	  \item Formale Beschreibung Indexstruktur, Operationen als Pseudocode, Komplexitätsabschätzungen
+	  \item Mock-Ups Benutzerschnittstelle
+	  \item Sequence-charts für den Ablauf jeder zentralen Funktionen vom UI zur Infrastruktur und zurück
+	\end{itemize}
+\end{frame}
+
+% 2. Meilenstein
+\begin{frame}
+	\frametitle{\underline{2. Meilenstein}: Lauffähige Version}
+	7.12.2015:
+\begin{itemize}
+ \item Erste, mit (Test-)daten, lauffähige Version des Programms\\
+ (GUI, Middleware, Integration)
+  \begin{itemize} 
+   \item Erste Version des Index, muss nicht parallel laufen
+   \item Mit Testdaten gefülltes DWH
+   \item Suchanfragen, Darstellung in Lanes, Referenzgenomanzeige
+  \end{itemize}
+ \item Zwischenstand Dokumentation an Projektleitung
+\end{itemize}
+\end{frame}
+
+\begin{frame}
+ \frametitle{}
+ 12.12.2015:
+ \begin{itemize}
+  \item Lauffähige Version des Programms mit mind. einer eingebundenen Hauptdatenbank
+  \item Erste Version mit einem verbesserten Ansatz des verteilten Index.
+  \item Der Index läuft parallel 
+  \item Verbessertes GUI, bei der fehlerhafte Benutzereingaben vollständig behandelt werden.
+  \item Bericht der Teilgruppenleiter über den Stand ihrer Teilprojekte
+  \item Zwischenreview: Stand aller Teilprojekte 
+ \end{itemize}
+\end{frame}
+
+% \underline{3. Meilenstein}
+\begin{frame}
+ \frametitle{\underline{3. Meilenstein}}
+ 19.12.2015:
+ \begin{itemize}
+ \item Lauffähige Version des Programms mit mind. zwei eingebundenen Hauptdatenbanken
+ \item Eine erste Version der Datenbankintegrationsmöglichkeit für Benutzer steht zur Verfügung
+ \item Der verteilte Index läuft auf allen 4 VMs
+ \item Die GUI bietet erste Konfigurationsmöglichkeiten 
+ \end{itemize}
+\end{frame}
+
+% Name
+\begin{frame}
+ \frametitle{Projektname}
+ \begin{itemize}[<+->]
+ \item The Mutation Viewer/MutaView
+ \item The Mutation Lens
+ \item The Mutation Browser/MutaBrowse/MutaSearch
+ \item Alazen (Abgeleitet von Alhazen)
+ \item AlazenViewer/Browser/Search
+ \item GMB/GenMutationBase
+ \end{itemize}
+\end{frame}
+
+\end{document}
+

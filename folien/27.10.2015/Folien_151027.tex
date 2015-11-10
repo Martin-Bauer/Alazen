@@ -1,0 +1,254 @@
+%Danke an Samuel Brack für die Vorlage
+\documentclass{beamer}
+\usepackage{ngerman}
+\usepackage{hyperref}
+\usepackage[utf8]{inputenc}
+\usepackage{amsmath,amsfonts,amssymb,dsfont}
+\usepackage[ngerman]{babel}
+\usepackage[autostyle=true,german=quotes]{csquotes}
+\usepackage{graphicx}
+\usepackage{multirow}
+\usepackage{listings}
+\usepackage{hyperref}
+\usepackage{tikz}
+\usetikzlibrary{automata}
+\usetheme{HUmetrics}
+\usecolortheme{default}
+\usefonttheme{serif}
+%\useinnertheme{circles}
+\setbeamertemplate{navigation symbols}{}
+\lstset{language=[LaTeX]TeX,
+	basicstyle=\tiny,
+	stringstyle=\ttfamily,
+	commentstyle=,
+	tabsize=2,
+	numbers=left,
+    numberstyle=\tiny,
+    numbersep=5pt,
+	frame=single,
+	framerule=0.1pt,
+	keywordstyle=\color{blue},
+    xleftmargin=15pt,
+	xrightmargin=15pt,
+    literate={ä}{{\"a}}1 {Ü}{{\"U}}1 {~}{{\textasciitilde}}1
+}
+
+
+\title[VGB]{Semesterprojekt Verteiltes Genom Browsing}
+\subtitle{Projektstruktur, Werkzeuge und Use Cases}
+\author[Kruse,Schumacher]{Malte Kruse\\Ben Schumacher}
+\institute{Institut für Informatik\\Humboldt-Universität zu Berlin}
+\date{27.10.2015}
+
+\begin{document}
+
+
+
+% Titelseite
+\begin{frame}
+	\titlepage
+\end{frame}
+
+
+% Inhaltsverzeichnis
+\begin{frame}
+	\frametitle{Inhaltsverzeichnis}
+	\begin{itemize}
+		\item Mailinglists
+		\item Git
+		\item Teilprojekte
+			\begin{itemize}
+				\item Integration
+				\item Middleware
+				\item GUI
+			\end{itemize}
+		\item Projektleitung
+		\item Use Cases
+	\end{itemize}
+\end{frame}
+
+\section{Tools}
+% Mailinglists
+\begin{frame}
+	\frametitle{Mailinglists}
+	\begin{itemize}
+		\item Drei Mailinglists:
+		\begin{itemize}
+			\item sp\_vgb\_all@lists.hu-berlin.de[VGB-ALl]
+			\item sp\_vgb\_integration@lists.hu-berlin.de [VGB-IG]
+			\item sp\_vgb\_middleware@lists.hu-berlin.de [VGB-MW]
+			\item sp\_vgb\_gui@lists.hu-berlin.de [VGB-GUI]
+		\end{itemize}
+		\item Externe können auch senden\\
+	\item Nachrichten werden dann moderiert
+	\item Mailtags verwenden!
+	\end{itemize}
+\end{frame}
+
+% Git
+\begin{frame}
+	\frametitle{Git}
+	\begin{itemize}
+		\item Filehoster: GitHub
+		\item Wird ebenfalls als Bugtracker und Milestonesverwalter verwendet
+		\item Bis nächste Woche:
+		\begin{itemize}
+			\item GitHub Account erstellen
+			\item Dem Tutorial Repository folgen
+			[\url{github.com/hu-semesterprojekt-genombrowser/tutorial}]
+			\item Repository clonen und eine Testdatei mit dem eigenen Namen pushen
+		\end{itemize}
+	\end{itemize}
+\end{frame}
+
+\section{Teilprojekte}
+
+% Integrationit
+\frame{
+	\frametitle{Integration}
+	\begin{center}
+		\begin{tabular}{|l|l|}
+			\hline
+			Felix Scholze	 & f.scholze@gmx.de\\
+			\hline
+			\textbf{Gabriel Krause}	 & krausegv@informatik.hu-berlin.de\\
+			\hline
+			Kacper Siedlecki &	kacperbajronsiedlecki@gmail.com\\
+			\hline
+			Marius Maass	 & le\_schleicher@hotmail.de\\
+			\hline
+			Sonay Sengün	 & sonaysenguen@gmail.com\\
+			\hline
+		\end{tabular}
+	\end{center}
+	\begin{itemize}
+		\item Wöchentliches Treffen: Dienstags 11-13 Uhr, Bibiothek
+	\end{itemize}
+}
+
+% Integrationit
+\frame{
+	\frametitle{Integration}
+	Aufgaben:
+	\begin{itemize}
+		\item Herunterladen der Genomdaten und Metadaten von vier verschiedenen Quellen
+		\item Parsing der Daten in einheitliches Format
+		\item Erstellen einer Datenbank
+		\item Überführen der Daten in dies Datenbank
+	\end{itemize}
+}
+
+% Middleware
+\begin{frame}
+	\frametitle{Middleware}
+	\begin{center}
+		\begin{tabular}{|l|l|}
+			\hline
+			Bastian Naber & b\_naber@hotmail.de\\
+			\hline
+			Daniel Zyla	& zyladani@informatik.hu-berlin.de\\
+			\hline
+			Martin Bauer & bauermax@informatik.hu-berlin.de\\
+			\hline
+			\textbf{Martin Wackelbauer} & paragumba@gmail.com\\
+			\hline
+			Nikita Rose & roseniki@cms.hu-berlin.de\\
+			\hline
+			Tobias Löffller	& loeflert@informatik.hu-berlin.de\\
+			\hline
+		\end{tabular}
+	\end{center}
+	\begin{itemize}
+		\item Wöchentliches Treffen: Dienstags 11-13 Uhr, RUD 25 4.410
+	\end{itemize}
+\end{frame}
+
+% Middleware
+\begin{frame}
+	\frametitle{Middleware}
+	Aufgaben:
+	\begin{itemize}
+		\item Schnittstelle zwischen UI und Daten
+		\item Bereitstellung einer Datenstruktur, die eine effiziente Umsetzung der Suche ermöglicht
+		\item Abarbeitung niedriger Detailstufen von UI-Anfragen aus der Datenstruktur im Hauptspeicher
+		\item Umformung von UI-Anfragen in DB-Anfragen mit möglichst minimalem Suchaufwand
+		\item \enquote{Zeit schinden} durch geeignete Vorbereitung von Anfragen und Pufferung
+	\end{itemize}
+\end{frame}
+
+% Frontend
+\begin{frame}
+	\frametitle{Frontend}
+	\begin{center}
+		\begin{tabular}{|l|l|}
+			\hline
+			Aleksandar Atanasov & aleksandar\_atanasov91@abv.bg\\
+			\hline
+			\textbf{Erik Elisath} & elisathe@informatik.hu-berlin.de\\
+			\hline
+			Jan Lelis & mail@janlelis.de\\
+			\hline
+			Johannes Rosswog & rosswogj@informatik.hu-berlin.de\\
+			\hline
+			Lucas Rebscher & lucas.rebscher@web.de\\
+			\hline
+			Robin Papke	& robin\_papke@web.de\\
+			\hline
+		\end{tabular}
+	\end{center}
+	\begin{itemize}
+		\item Wöchentliches Treffen: Dienstags 11-13 Uhr, RUD 25 3.321
+	\end{itemize}
+\end{frame}
+
+% Frontend
+\begin{frame}
+	\frametitle{Frontend}
+	Aufgaben:
+	\begin{itemize}
+		\item Grafisches aufbereiten und darstellen der Daten
+		\item Absprache mit Middleware
+	\end{itemize}
+\end{frame}
+
+% Projektleitung
+\begin{frame}
+	\frametitle{Projektleitung}
+	\begin{itemize}
+		\item Malte Kruse (krusemal@informatik.hu-berlin.de)
+		\item Ben Schumacher (ben.schumacher@informatik.hu-berlin.de)
+		\item Treffen jeden Dienstag 8-9 Uhr (bzw. 11)
+	\end{itemize}
+\end{frame}
+
+\section{Use Case 1}
+% Use Case
+\begin{frame}
+Ein Benutzer möchte sehen, welche Mutationen alle im Bereich von 144MB – 154MB auf dem Chromosom 7 auftreten können. Hierfür wählt er die 1000 Genomes Projekt-Datenbank aus.
+Nun sieht er das ganze Chromosom in einer eigenen „Lane“ im Vergleich zum Referenzgenom. Er sieht durch eine Markierung, dass im Bereich von 150MB-152MB gehäuft Mutationen auftreten können. Da er diesen Bereich nicht detailliert einsehen kann, da zu viele Basenpaare angezeigt werden, zoomt der Benutzer herein. Die Basenpaare, sowohl in der 1000 Genomes „Lane“ als auch vom Referenzgenom, sind immer besser zu erkennen, bis er genau einsehen kann, welche Mutationen auftreten können. Als er die maximale Zoomstufe erreicht, sind alle Basenpaare des Chromosoms 7 und des Referenzgenoms zu erkennen und er kann die auftretenden Mutationen betrachten.
+\end{frame}
+
+\section{Use Case 2}
+% Use Case
+\begin{frame}
+Ein Benutzer möchte herausfinden, welche Mutationen bei einer bestimmten relativen Häufigkeit im Bereich eines Gens auftreten. Da er sich sehr für den Colorectalen Bereich interessiert, wählt er die TCGA aus. Da der Benutzer nicht den genauen Namen des Gens kennt und sich bei der Eingabe irrt, bekommt er kein Basenpaare angezeigt, sondern Vorschläge, welches Gen er gemeint haben könnte. Nun kann er sich auf Grund des Lesens erinnern und wählt einen der Vorschläge.\\
+Nun öffnet sich eine „Lane“ mit den Daten für den Bereich und der Benutzer sieht, wo die Mutation mit der bestimmten relativen Häufigkeit auftritt.
+\end{frame}
+
+\section{Use Case 3}
+% Use Case
+\begin{frame}
+Ein Benutzer möchte sich darüber informieren, mit welcher Häufigkeit in einem bestimmten Bereich eines bestimmten Gens Mutationen auftreten können. Hierbei wählt er die HGMD mit einem Bereich von 140MB – 155MB, da der Bereich jedoch zu groß ist, wird ihm nur der Bereich von 140MB-150MB dargestellt.\\
+Nun sieht er in dem Bereich, dass sehr wenig Mutationen auftreten. Ihn interessiert jedoch ebenfalls, ob bei Krebspatienten höhere Mutationsraten existieren. Dazu gibt er die gleiche Suche noch einmal ein, wählt jedoch zusätzlich TCGA für Lungenkrebs und TCGA für Colorectalkrebs.\\
+Nun werden ihm die drei „Lanes“ und das Referenzgenom übereinander angezeigt. Nun kann er die Häufigkeit von Mutationen in den Bereichen vergleichen.
+\end{frame}
+
+\section{}
+% Use Case
+\begin{frame}
+	\begin{itemize}
+		\item Fragen?
+	\end{itemize}
+\end{frame}
+\end{document}
+
