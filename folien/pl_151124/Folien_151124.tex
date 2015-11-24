@@ -12,6 +12,7 @@
 \usepackage{hyperref}
 \usepackage{tikz}
 \usetikzlibrary{automata}
+\usepackage{svg}
 \usetheme{HUmetrics}
 \usecolortheme{default}
 \usefonttheme{serif}
@@ -49,13 +50,63 @@
 \end{frame}
 
 
-% Inhaltsverzeichnis
+% Welche Repositorys verwenden wir?
 \begin{frame}
-	\frametitle{Inhaltsverzeichnis}
+	\frametitle{Welche Repositorys verwenden wir?}
+	Je eins für den Quellcode jedes Teilprojekts
 	\begin{itemize}
-		\item Git
+		\item \url{github.com/hu-semesterprojekt-genombrowser/Alazen-Integration}
+		\item \url{github.com/hu-semesterprojekt-genombrowser/Alazen-Middleware}
+		\item \url{github.com/hu-semesterprojekt-genombrowser/Alazen-GUI}
+	\end{itemize}
+\end{frame}
+
+% Welche Repositorys verwenden wir?
+\begin{frame}
+	\frametitle{Welche Repositorys verwenden wir?}
+	Ein gesammt Repository\\
+	\url{github.com/hu-semesterprojekt-genombrowser/Alazen}\\
+	für
+	\begin{itemize}[<+->]
+		\item Software Entwürfe
+		\item Wiki
+		\item Folien
+		\item Lauffähige Versionen
+	\end{itemize}
+\end{frame}
+
+% Branches
+\begin{frame}
+	\frametitle{Branches}
+	Warum?
+	\begin{itemize}
+		\item Zu viele Menschen sollen nicht gleichzeitig an einer Datei arbeiten
+		\item Neue Features sollen von allen kommentiert werde können (Merge Requests)
+	\end{itemize}
+\end{frame}
+
+% Branches
+\begin{frame}
+	\frametitle{Konzept}
+	\begin{figure}
+	    \centering
+	    \def\svgwidth{0.8\columnwidth}
+	    \input{image.pdf_tex}
+	\end{figure}
+\end{frame}
+
+
+% Branches
+\begin{frame}
+	\frametitle{Nützliche Links}
+	Eine sehr gute Giteinführung
+	\begin{itemize}
+		\item \url{https://www.atlassian.com/git/tutorials/}
+	\end{itemize}
+	Git Dokumentation
+	\begin{itemize}
+		\item \url{https://git-scm.com/doc}
 	\end{itemize}
 \end{frame}
 
 \end{document}
-
