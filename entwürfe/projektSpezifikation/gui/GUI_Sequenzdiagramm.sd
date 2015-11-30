@@ -1,0 +1,43 @@
+user:Actor
+lane:Lane[a]
+gui:GUIContainer[a]
+pro:Provider[a]
+back:Backend[a]
+
+user:lane.moveLane
+lane:>pro.moveView(position, zoomlvl)
+pro:back.fetchData()
+pro:>gui.setNewData()
+pro:stop
+gui:>lane.render()
+gui:stop
+
+
+user:lane.zoomLane
+lane:>pro.zoomView(position, zoomlvl)
+pro:back.fetchData()
+pro:>gui.setNewData()
+pro:stop
+gui:>lane.render()
+gui:stop
+
+user:lane.selectChromosom
+lane:>pro.selectChromosom(position, zoomlvl)
+pro:back.fetchData()
+pro:>gui.setNewData()
+pro:stop
+gui:>lane.render()
+gui:stop
+
+user:lane.addSource
+lane:>pro.addLane(position, zoomlvl)
+pro:back.fetchData()
+pro:>gui.setNewData()
+pro:stop
+gui:>lane.render()
+gui:stop
+
+user:lane.removeSource
+lane:>gui.removeLane()
+gui:>lane.render()
+gui:stop
