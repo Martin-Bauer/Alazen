@@ -7,3 +7,6 @@
 *.out
 *.toc
 *.snm
+*.maf
+*.mat
+*.mtc*
