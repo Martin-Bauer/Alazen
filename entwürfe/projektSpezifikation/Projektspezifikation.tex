@@ -254,146 +254,7 @@ return "index built"\;
 \includegraphics[width=\textwidth]{middleware/namesearch_seq.png}
 \subsubsection{Suche nach Gennamen}
 \includegraphics[width=\textwidth]{middleware/prefix_seq.png}
-\newpage\hfill\\
-\subsection{Schnittstellenspezifikation: Middleware - Frontend}
-\textbf{Zoomstufen (Intervallgrößen)}
-\begin{enumerate}
-\item 200bp   <-- String
-\item 1,000bp
-\item 5,000bp
-\item 10,000bp
-\item 100,000bp
-\item 1,000,000bp
-\item 10,000,000bp
-\end{enumerate}
-\vspace*{0.5cm}
-Subintervalle (Aufteilung der Intervallgrößen):
-\begin{itemize}
-\item 1,000/200 -> 5 Schritten
-\item 5,000/200 -> 25 Schritten
-\item 10,000/200 -> 50 Schritten
-\item 100,000/200 -> 500 Schritten
-\item 1,000,000/200 -> 5,000 Schritten
-\item 10,000,000/200 -> 50,000 Schritten
-\end{itemize}
 
-\subsubsection{Use-Cases}
-\textbf{Intervallsuche}\\
-I.\\
-S:|270-330| = 60 < (1)\\
-$\rightarrow$  Zoomstufe (1)\\
-\hspace*{0.6cm} von 270\\
-\hspace*{0.6cm} bis [270+200]
-\newpage\hfill\\
-II.\\
-S:|220-530| = 310 > (1)\\
-=>  Zoomstufe (2)\\
-\hspace*{0.6cm} von 220\\
-\hspace*{0.6cm} bis [220+1,000]\\
-\\
-III.\\
-S:|23,578-57,654| = ~36,000 > (4)\\
-=>  Zoomstufe (5)\\
-\hspace*{0.6cm} von 23,578\\
-\hspace*{0.6cm} bis [23,578+100,000]\\
-\\
-\textbf{Gensuche:}\\
-S:|FOXP2|\\
-=>  Namensuche an Backend mit der Antwort 'true' und dem Intervall von FOXP2\\
-S:|13;2,700,000-3,800,000| = ~1,100,000 > (6)\\
-=>  Zoomstufe (7)\\
-\hspace*{0.6cm} von 2,700,000\\
-\hspace*{0.6cm} bis [2,700,000+10,000,000]\\
-\\
-\textbf{Verschieben der Lanes}\\
-I.\\
-Ausgangsstellung: P:[220+200] -> nach rechts um 100bp verschieben\\
-=>  Zoomstufe (1)\\
-\hspace*{0.6cm} von [220+100]\\
-\hspace*{0.6cm} bis [220+100+200]\\
-\\
-II.\\
-Ausgangsstellung: [220+1,000] -> nach rechts um 500bp verschieben\\
-=>  Zoomstufe (2)\\
-\hspace*{0.6cm} von [220+500]\\
-\hspace*{0.6cm} bis [220+500+1,000]\\
-\\
-\textbf{Zoomstufe verändern}\\
-\begin{tabular}{c l}
-(2) & von 220\\
- |  & bis [200+1,000]\\
- v &\\
-(3) & von 200      \hspace*{1cm}  --> (1) von 220\\
- |  & bis [220+5,000]  \hspace*{1cm}       bis [220+200]\\
- v &\\
-(7) & von 200\\
-    & bis [220+10,000,000]\\
-\end{tabular}
-\newpage\hfill\\
-\subsection{Kommunikation}
-$\rightarrow$ (an Middleware)\\
-Quellen; Chromosom; Position; Suche; Zoomstufe; Anzahl der Subintervalle;\\Detail-Flag(true | false)\\
-\\
-$\leftarrow$ (von Middleware)\\
-Wenn Detail-Flag = true:\\
-\hspace*{1cm} RefSeq + Mutationen mit MetaDaten\\
-Wenn Detail-Flag = false:\\
-\hspace*{1cm} aggregierte Mutationen (durch Zoomstufe+Anzahl der Subintervalle)\\
-\\
-\textbf{Suchanfrage}\\
-GUI $\rightarrow$ Middleware (für alle Quellen)
-\begin{lstlisting}
-{
-  "source": ["src1", "src2", ...],
-  "chromosome": int x,
-  "search": String a
-}
-\end{lstlisting}
-GUI $\leftarrow$ Middleware (für alle Quellen, in dennen das gesuchte Gen vorkommt)
-\begin{lstlisting}
-{
-  "source": ["src1", "src2", ...],
-  "chromosome": int x,
-  "search": String a,
-  "position": {"from": int x, "to": int y}
-}
-\end{lstlisting}
-\newpage\hfill\\
-\textbf{Intervallanfrage}\\
-GUI $\rightarrow$ Middleware (Je eine Nachricht pro Quelle)
-\begin{lstlisting}
-{
-  "source": String s,
-  "chromosome": int x,
-  "position": {"from": int x, "to": int y},
-  "zoom": int y,
-  "subindex": int z,
-  "hasDetail": (true|false)
-}
-\end{lstlisting}
-GUI $\leftarrow$ Middleware (Je eine Nachricht pro Quelle)
-\begin{lstlisting}
-{
-  {
-    "source:" String s,
-    "chromosome": int x,
-    "position": {"from": int x, "to": int y},
-    "details": { "refseq": String b,
-                "mutations": [{ "name": String s,
-                                "position": {"from": int x, "to": int y},
-                                "metadata": {...}
-                              },{...},...]},
-    "graph": {
-              { "subintervall": int x,
-                "counts": int y
-              }
-            }
-  }
-}
-\end{lstlisting}
-Wenn das HasDetail-Flag \enquote{true} ist, dann wird \enquote{detail} befüllt und \enquote{graph} bleibt leer.\\
-Wenn das HasDetail-Flag \enquote{false} ist, dann wird \enquote{graph} befüllt und \enquote{detail} bleibt leer.\\
-Mit \enquote{subindex} ist die Anzahl der Subintervalle gemeint.
 \newpage
 \subsection{Unit-Tests}
 \subsubsection{QueryReceiver}
@@ -627,6 +488,210 @@ Suche [20,20] $\Rightarrow$ gib [15,20] und [5,20] aus
 Der Stresstest hat zum Ziel herauszufinden, wie lange die durchschnittliche Query-Laufzeit ist.\\
 Ziel des Systems ist es eine Laufzeit von unter einer Sekunde zu erreichen.\\
 Um dies zu überprüfen werden mehrere Anfragen der gleichen Art (Intervallsuche, Gennamenssuche, Präfixsuche) sequentiell gestellt und die Antwortzeit gemessen. Alle Anfragen sollen in unter einer Sekunde eine Antwort erzielen.
+\newpage
+\section{Schnittstellenspezifikation: Middleware - Frontend}
+Bei der Kommunikation zwischen Middleware und Forntend ist ein Austausch von JSON über die HTTP-Methode GET vorgesehen.
+An die Middleware werden folgende Informationen geschickt:
+\\
+\textit{Quellen; Chromosom; Position; Suche; Präfix-Flag; Zoomstufe; Anzahl der Subintervalle; HasDetail-Flag}.\\
+Von der Middleware werden bei bestimmten Flags, folgende Daten erwartet:
+\\
+Wenn \textit{IsPräfix-Flag} = \texttt{true}: Array aller Präfixe\\
+Wenn \textit{IsPräfix-Flag} = \texttt{false}: Name und Position der Suche\\[1em]
+Wenn \textit{HasDetail-Flag} = \texttt{true}: RefSeq + Mutationen mit MetaDaten\\
+Wenn \textit{HasDetail-Flag} = \texttt{false}: aggregierte Mutationen (durch Zoomstufe+Anzahl der Subintervalle)
+
+\subsubsection{Suchanfrage JSON}
+GUI $\Rightarrow$ Middleware
+\begin{lstlisting}[language=c,
+commentstyle=\fontsize{12}{14.4}\ttfamily,
+basicstyle=\ttfamily\fontsize{10}{12}\selectfont, showstringspaces=false]
+{
+  "source": ["src1", "src2", ...],
+  "chromosome": int x,
+  "search": String a
+  "isPrefix": (true|false)
+}
+\end{lstlisting}
+GUI $\Leftarrow$ Middleware
+\begin{lstlisting}[language=c,
+commentstyle=\fontsize{12}{14.4}\ttfamily,
+basicstyle=\ttfamily\fontsize{10}{12}\selectfont, showstringspaces=false]
+{
+  "source": ["src1", "src2", ...],
+  "chromosome": int x,
+  "search": String a,
+  "prefix": ["String a", "String b", ...],
+  "position": {"from": int x, "to": int y}
+}
+\end{lstlisting}
+\paragraph{Bemerkung} Wenn das \textit{isPrefix} den Wert \texttt{'true'} besitzt, wird \texttt{"prefix"} befüllt mit einem Array aller möglichen Präfixe.\\
+Wenn das \textit{isPrefix} den Wert \texttt{'false'} besitzt, wird \texttt{"prefix"} nicht befüllt, aber \texttt{"'search"} und \texttt{"position"} werden dann befüllt.
+\newpage
+
+\subsubsection{Intervallanfrage JSON}
+GUI $\Rightarrow$ Middleware
+\begin{lstlisting}[language=c,
+commentstyle=\fontsize{12}{14.4}\selectfont,
+basicstyle=\ttfamily\fontsize{10}{12}\selectfont, showstringspaces=false]
+{
+  "source": String s,
+  "chromosome": int x,
+  "position": {"from": int x, "to": int y},
+  "zoom": int y,
+  "subindex": int z,
+  "hasDetail": (true|false)
+}
+\end{lstlisting}
+GUI $\Leftarrow$ Middleware (pro Quelle)
+\begin{lstlisting}[language=c,
+commentstyle=\fontsize{12}{14.4}\selectfont,
+basicstyle=\ttfamily\fontsize{10}{12}\selectfont, showstringspaces=false]
+{
+  {
+    "source:" String s,
+    "chromosome": int x,
+    "position": {"from": int x, "to": int y},
+    "details": { "refseq": String b,
+                "mutations": [{ "name": String s,
+                                "position": {"from": int x, "to": int y},
+                                "metadata": {...}
+                              },{...},...]},
+    "graph": {
+              { "subintervall": int x,
+                "counts": int y
+              },
+              {...}
+            }
+  }
+}
+\end{lstlisting}
+\paragraph{Bemerkung} Wenn das \textit{HasDetail-Flag} \texttt{'true'} ist, dann wird \texttt{"detail"} befüllt und \texttt{"graph"} bleibt leer.\\
+Wenn das \textit{HasDetail-Flag} \texttt{'false'} ist, dann wird \texttt{"graph"} befüllt und \texttt{"detail"} bleibt leer.\\
+Mit \texttt{"'subindex"} ist die Anzahl der Subintervalle gemeint.
+\newpage
+\subsection{Beispiel der Kommunikation mit JSON}
+\paragraph{Suchanfrage} Es wird eine Suchanfrage des Users getätigt. Die \textit{Suche} wird mit dem Wert \textit{"FOXP2"} befüllt.\\
+\newline
+GUI $\Rightarrow$ Middleware
+\begin{lstlisting}[language=c,
+commentstyle=\fontsize{12}{14.4}\selectfont,
+basicstyle=\ttfamily\fontsize{10}{12}\selectfont, showstringspaces=false]
+{
+  "search": "FOXP2"
+  "isPrefix": false
+}
+\end{lstlisting}
+GUI $\Leftarrow$ Middleware
+\begin{lstlisting}[language=c,
+commentstyle=\fontsize{12}{14.4}\selectfont,
+basicstyle=\ttfamily\fontsize{10}{12}\selectfont, showstringspaces=false]
+{
+  "chromosome": 7,
+  "search": "FOXP2",
+  "prefix": [],
+  "position": {"from": 114086310, "to": 114693772}
+}
+\end{lstlisting}
+Darauf folgt eine Intervallanfrage mit der \textit{Zoomstufe} von \texttt{'1,000,000bp'} und der Anzahl der Subintervalle von \texttt{'200'}.\\
+\newline
+GUI $\Rightarrow$ Middleware
+\begin{lstlisting}[language=c,
+commentstyle=\fontsize{12}{14.4}\selectfont,
+basicstyle=\ttfamily\fontsize{10}{12}\selectfont, showstringspaces=false]
+{
+  "source": "Source 1",
+  "chromosome": 7,
+  "position": {"from": 114086310, "to": 114693772},
+  "zoom": 1,000,000,
+  "subindex": 200,
+  "hasDetail": false
+}
+\end{lstlisting}
+GUI $\Leftarrow$ Middleware
+\begin{lstlisting}[language=c,
+commentstyle=\fontsize{12}{14.4}\selectfont,
+basicstyle=\ttfamily\fontsize{10}{12}\selectfont, showstringspaces=false]
+{
+  {
+    "source:" "Source 1",
+    "chromosome": 7,
+    "position": {"from": 114086310, "to": 114693772},
+    "details": {},
+    "graph": {
+              { "subintervall": 114091310,
+                "counts": 233
+              },
+              {
+                "subintervall": 114096310,
+                "counts": 122
+              },
+              {
+                "subintervall": 114101310,
+                "counts": 89
+              },
+              {
+                "subintervall": 114106310,
+                "counts": 234
+              },
+              {...},
+              ...
+            }
+  }
+}
+\end{lstlisting}
+
+\paragraph{Intervallsuche} Der User gibt ein \textit{Intervall} an und möchte sich in der niedrigsten \textit{Zoomstufe} die Details anschauen.\\
+\newline
+GUI $\Rightarrow$ Middleware
+\begin{lstlisting}[language=c,
+commentstyle=\fontsize{12}{14.4}\selectfont,
+basicstyle=\ttfamily\fontsize{10}{12}\selectfont]
+{
+  "source": "Source 1",
+  "chromosome": 14,
+  "position": {"from": 5465, "to": 5665},
+  "zoom": 200,
+  "subindex": 0,
+  "hasDetail": true
+}
+\end{lstlisting}
+GUI $\Leftarrow$ Middleware
+\begin{lstlisting}[language=c,
+commentstyle=\fontsize{12}{14.4}\selectfont,
+basicstyle=\ttfamily\fontsize{10}{12}\selectfont,showstringspaces=false]
+{
+  {
+    "source:" Source 1,
+    "chromosome": 14,
+    "position": {"from": 5465, "to": 5665},
+    "details": { "refseq": "CCCTGAGAAAGACGCCCTGAGCGGGTAACGTCAACTGTCG
+			    TGGGATTGGAAGAACTTGGTGGGGTTCCACATATCATGAT
+                            CACGTAGAACACAATAAAGAAAATCTCCGGAGCGTGAATT
+                            AAACTGAACTGACTCTTGTCAGTGTCTCGCTTACCACGTC
+                            AAGGAAGTCAATGATGCCCTAATCTGGATAGCTTTGTCAT",
+                "mutations": 
+                [{ "name": "RS12334",
+                                "position": {"from": 5480, "to": 5498},
+                                "metadata": {"sequence": "TCGGTATTCTACGTCTGC"}
+                              },
+                 { "name": "RBDDFG23",
+                                "position": {"from": 5560, "to": 5567},
+                                "metadata": {"sequence": "GGGCACT"}
+                              }
+                 { "name": "RS12334",
+                                "position": {"from": 5599, "to": 5610},
+                                "metadata": {"sequence": "TGACGAGATCG"}
+                              }
+                 { "name": "RS12334",
+                                "position": {"from": 5650, "to": 5655},
+                                "metadata": {"sequence": "CGACC"}
+                              }]
+              },
+    "graph": {}
+  }
+}
+\end{lstlisting}
 \newpage
 
 \section{Frontend}
