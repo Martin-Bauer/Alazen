@@ -12,6 +12,7 @@
 \usepackage{fancyhdr} %Header
 \usepackage{listings}
 \usepackage{csquotes}
+\usepackage{tikz}
 \usepackage[]{algorithm2e}
 
 \title{Verteiltes Genom Browsing}
@@ -20,6 +21,16 @@
 \setkomafont{subtitle}{\bfseries \LARGE}
 \renewcommand{\headrulewidth}{0pt}
 \date{23. Dezember 2015}
+
+
+\newcommand{\includepicture}[3][width=\textwidth] {
+\begin{figure}
+  \centering
+	\includegraphics[#1]{#2} 
+  \caption{#3}
+  \label{fig:#3}
+\end{figure}
+}
 \begin{document}
 \pagestyle{fancy}
 %\fancyhf{}
@@ -40,6 +51,8 @@
 
 %\section{Einleitung}
 %\newpage
+
+
 \input{Integration.tex}
 \newpage
 
