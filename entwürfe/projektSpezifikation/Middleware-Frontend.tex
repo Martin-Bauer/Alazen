@@ -8,7 +8,7 @@ Von der Middleware werden bei bestimmten Flags, folgende Daten erwartet:
 Wenn \textit{IsPräfix-Flag} = \texttt{true}: Array aller Präfixe\\
 Wenn \textit{IsPräfix-Flag} = \texttt{false}: Name und Position der Suche\\[1em]
 Wenn \textit{HasDetail-Flag} = \texttt{true}: RefSeq + Mutationen mit MetaDaten\\
-Wenn \textit{HasDetail-Flag} = \texttt{false}: aggregierte Mutationen (durch Zoomstufe+Anzahl der Subintervalle)
+Wenn \textit{HasDetail-Flag} = \texttt{false}: aggregierte Mutationen (durch Zoomstufe+Anzahl der \textit{Subintervalle})
 
 \subsubsection{Suchanfrage JSON}
 GUI $\Rightarrow$ Middleware
@@ -77,7 +77,7 @@ basicstyle=\ttfamily\fontsize{10}{12}\selectfont, showstringspaces=false]
 \end{lstlisting}
 \paragraph{Bemerkung} Wenn das \textit{HasDetail-Flag} \texttt{'true'} ist, dann wird \texttt{"detail"} befüllt und \texttt{"graph"} bleibt leer.\\
 Wenn das \textit{HasDetail-Flag} \texttt{'false'} ist, dann wird \texttt{"graph"} befüllt und \texttt{"detail"} bleibt leer.\\
-Mit \texttt{"'subindex"} ist die Anzahl der Subintervalle gemeint.
+Mit \texttt{"'subindex"} ist die Anzahl der \textit{Subintervalle} gemeint. Als \textit{Subintervalle} werden kleine Bereiche des Intervalls bezeichnet. Diese werden dazu verwendet um einen Graphen detalierter darzustellen.
 \newpage
 \subsection{Beispiel der Kommunikation mit JSON}
 \paragraph{Suchanfrage} Es wird eine Suchanfrage des Users getätigt. Die \textit{Suche} wird mit dem Wert \textit{"FOXP2"} befüllt.\\
@@ -87,6 +87,8 @@ GUI $\Rightarrow$ Middleware
 commentstyle=\fontsize{12}{14.4}\selectfont,
 basicstyle=\ttfamily\fontsize{10}{12}\selectfont, showstringspaces=false]
 {
+  "source": ,
+  "chromosome": ,
   "search": "FOXP2"
   "isPrefix": false
 }
