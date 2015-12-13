@@ -36,7 +36,28 @@ EOF\\
 \subsubsection{Sequenzdiagramm}
 \includepicture[width=\textwidth]{integration/SQDiag.png}{Sequenzdiagramm des Integrationsprozesses\\ Der Ablauf besteht aus zwei Schleifen: Zuerst wird der gesamte Prozess von hinten gestartet, um zu gewährleisten, dass vor Beginn des Integrationsprozesses alle Teilprozesse laufen um Probleme während des Prozesses zu vermeiden. Der globale Parser wird gestartet, startet von sich aus die lokalen Parser, welche dann die Daten ihrer Quelle herunterladen. Nach dem erfolgreichen Herunterladen parsen die lokalen Parser ihre Daten in ein, für den globalen Parser akzeptables Inputfile. Wenn diese Schleife beendet ist, wird der globale Parser alle Inputfiles nehmen und diese dann in das DWH schreiben.}
 \subsection{Datenbankentwurf}
-\includegraphics[width=0.5\textwidth]{integration/DB.png}
+\includepicture[width=0.5\textwidth]{integration/DB.png}{Entwurf der Datenbank\\ Die, bereits bei dem Attributmapping genannten, Attribute werden in zwei Tabellen gestaffelt, um eine effizientere und weniger fehleranfällige Struktur zu haben.  Man kann sich möglicherweise sogar Einträge sparen, da es vorkommen kann, dass mehrere Mutationen von der gleichen Person stammen. Außerdem können die Anfragen der Middleware somit auch besser durchgeführt werden.}\\
+Erklärungen der Attribute der "Mutation"-Tabelle:\\
+\\
+\begin{tabular}{|l|c|c|c|c|r|}
+Name & Typ & Format & Wertebereich & Beispiel & Notwendigkeit\\
+\hline
+MutationID & integer &  \\
+\hline
+Mutation & text & \\
+\hline
+Mutationsanfang & bigint & \\
+\hline
+Mutationsende & bigint & \\
+\hline
+Quelle & text & \\
+\hline
+Referenzname & text & \\
+\hline
+Chromosom & char(2) & \\
+\hline
+MetadatenID & int & \\
+\end{tabular}
 \subsection{Entwurf des Parsers}
 Der lokale Parser wird auf die jeweilige Quelle zugeschnitten sein. Er wird die vorher heruntergeladenen Dateien entpacken, entschlüsseln und danach die relevanten Daten aus den Dateien herauslesen und in einem einheitlichen Format für den globalen Parser abspeichern.\\
 Der globale Parser wird die Einheitsdateien der lokalen Parser nehmen, die beinhaltenden Daten in einzelne Datensätze aufteilen und diese dann in der Datenbank abspeichern und sie somit der Middleware bereitstellen.
