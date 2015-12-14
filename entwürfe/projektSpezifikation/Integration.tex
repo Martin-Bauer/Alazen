@@ -42,22 +42,40 @@ Erklärungen der Attribute der "Mutation"-Tabelle:\\
 \begin{tabular}{|l|c|c|c|c|r|}
 Name & Typ & Format & Wertebereich & Beispiel & Notwendigkeit\\
 \hline
-MutationID & integer &  \\
+MutationID & integer & i & 0 - 2.147.483.647 & 1, 2, 3, ...& notwendig\\
 \hline
-Mutation & text & \\
+Mutation & text & String & beliebig lang & 'ATTCGATTAGCAGT' & notwendig\\
 \hline
-Mutationsanfang & bigint & \\
+Mutationsanfang & bigint & i & 0 - 9.223.372.036.854.775.807 & 60000 & notwendig\\
 \hline
-Mutationsende & bigint & \\
+Mutationsende & bigint & i & 0 - 9.223.372.036.854.775.807 & 80000 & notwendig\\
 \hline
-Quelle & text & \\
+Quelle & text & String & beliebig lang & 'dbSNP' & notwendig\\
 \hline
-Referenzname & text & \\
+Referenzname & text & String & beliebig lang & 'GRCh38' & notwendig\\
 \hline
-Chromosom & char(2) & \\
+Chromosom & char(2) & cc & X, Y oder 0 - 99 & 'X', 'Y', '64' & nicht notwendig\\
 \hline
-MetadatenID & int & \\
-\end{tabular}
+MetadatenID & int & i & 0 - 2.147.483.647 & 1, 2, 3, ... & notwendig\\
+\end{tabular}\\
+\\
+Erklärungen der Attribute der "Metadaten"-Tabelle:\\
+\begin{tabular}{|l|c|c|c|c|r|}
+Name & Typ & Format & Wertebereich & Beispiel & Notwendigkeit\\
+\hline
+MetadatenID & int & i & 0 - 2.147.483.647 & 1, 2, 3, ... & notwendig\\
+\hline
+Quelle & text & String & beliebig lang & 'dbSNP', '1000GenomeProject' & notwendig\\
+\hline
+Geschlecht & char & c & m oder w & 'm', 'w' & nicht notwendig \\
+\hline
+Herkunft & text & Länderkürzel & Länderkürzel (meist dreistellig) & 'GBR' & nicht notwendig\\
+\hline
+Downloadzeit & date & dd/mm/yyyy & Bis zum Jahr 5874897 n.Chr. & '24/12/2015' & nicht notwendig, wird aber per Default auf heutigen Tag eingetragen\\
+\end{tabular}\\
+\\
+Wir entschieden uns für diesen Aufbau, da die Abfragen des Users sich in zwei Bereichen unterteilt: Die Mutation selber und die dazugehörigen Metadaten. Eine Separierung dieser beiden Teilgruppen gibt der Middleware mehr Möglichkeiten schneller und effizienter das gewünschte Ergebnis zu finden. Dabei muss aber beachtet werden, dass es noch eine Relation zwischen den beiden Tabellen geben muss, damit jede Mutation genau einen Metadaten-Datensatz zugewiesen bekommt. Dies war der Grund, weshalb wir uns für das relationale Datenbankschema entschieden. Dieses Datenbankschema gibt uns die Möglichkeit, eine Relation zwischen den Mutationen und den Metadaten zu erstellen.\\
+Nach dieser Entscheidung benötigten wir ein Datenbankmanagementsystem, was den Ansprüchen des Projektes gerecht werden musste, das heißt, dass es effizient mit großen Datenmengen umgehen können muss. Unsere Entscheidung fiel auf PostgreSQL. Dieses DBMS kann problemlos viele Daten und vor allem große Datensätze speichern und verwalten, was ausschlaggebend für das gesamte Projekt ist.
 \subsection{Entwurf des Parsers}
 Der lokale Parser wird auf die jeweilige Quelle zugeschnitten sein. Er wird die vorher heruntergeladenen Dateien entpacken, entschlüsseln und danach die relevanten Daten aus den Dateien herauslesen und in einem einheitlichen Format für den globalen Parser abspeichern.\\
 Der globale Parser wird die Einheitsdateien der lokalen Parser nehmen, die beinhaltenden Daten in einzelne Datensätze aufteilen und diese dann in der Datenbank abspeichern und sie somit der Middleware bereitstellen.
