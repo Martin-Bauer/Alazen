@@ -1,0 +1,16 @@
+$$
+SampelID:GP0011
+Genkoordinaten:6:19:19
+Mutationssequenz:AGTCTAGTA
+SampelID:GP0012
+Genkoordinaten:6:134:134
+Mutationssequenz:AGTCTA
+$$
+SampelID:GP0011
+Gender:m
+Population:GRB
+Download:01:01:2001
+SampelID:GP0012
+Gender:m
+Population:GRB
+Download:01:01:2001

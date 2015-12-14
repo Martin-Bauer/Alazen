@@ -21,20 +21,24 @@ Der Metadatensatz besteht aus einer eindeutigen ID, der Quelle, woher die Daten 
 
 
 
-\subsubsection{Inputfile-Format}
+\subsubsection{Inputfile-Format vom lokalen Parser erzeugt}
 Referenzgenomname:„Name des Referenzgenoms Bsp: GRCh38“\\
 Quelle:„hier die Quelle angeben“\\
 \$\$\\
-SampleID:„hier Samplename“\\
+SampleID:„SampleID aus der DB“\\
 Genkoordinaten:„Angabe der Koordinaten“ \\
 Mutationssequenz:„Sequenz“\\
 \$\$\\
-SampleID:„hier SampleID aus der Datenbank“\\
+SampleID:„SampleID aus der DB“\\
 Gender:„m oder f“\\
 Population:„drei Buchstaben bsp: GBR“ \\
 EOF\\
+\\
+Der lokale Parser wird für jeden Datensatz einen Eintrag in dieser Art in sein Inputfile schreiben, so dass er, nach erfolgreichem Parsen eine Textdatei mit entsprechend vielen Einträgen dieser Art hat.\\
+\subsubsection{Inputfile vom globalen Parser erzeugt}
+Es werden zwei Textdateien erstellt werden, eine für die Metadaten-Datensätze und eine für die Mutations-Datensätze. Diese werden danach per COPY-Befehl vom DWH eingelesen. Für diesen Befehl benötigen beide Dateien einen bestimmten Aufbau: Jedes Attribut ist voneinander per Leerzeichen getrennt und jede Zeile beherbergt einen Datensatz. 
 \subsubsection{Sequenzdiagramm}
-\includepicture[width=\textwidth]{integration/SQDiag.png}{Sequenzdiagramm des Integrationsprozesses\\ Der Ablauf besteht aus zwei Schleifen: Zuerst wird der gesamte Prozess von hinten gestartet, um zu gewährleisten, dass vor Beginn des Integrationsprozesses alle Teilprozesse laufen um Probleme während des Prozesses zu vermeiden. Der globale Parser wird gestartet, startet von sich aus die lokalen Parser, welche dann die Daten ihrer Quelle herunterladen. Nach dem erfolgreichen Herunterladen parsen die lokalen Parser ihre Daten in ein, für den globalen Parser akzeptables Inputfile. Wenn diese Schleife beendet ist, wird der globale Parser alle Inputfiles nehmen und diese dann in das DWH schreiben.}
+\includepicture[width=\textwidth]{integration/SQDiag.png}{Sequenzdiagramm des Integrationsprozesses\\ Der Ablauf besteht aus zwei Schleifen: Zuerst wird der gesamte Prozess von hinten gestartet, um zu gewährleisten, dass vor Beginn des Integrationsprozesses alle Teilprozesse laufen um Probleme während des Prozesses zu vermeiden. Der globale Parser wird gestartet, startet von sich aus die $n$ lokalen Parser, welche dann die Daten ihrer $n$ Quellen herunterladen. Jede Quelle hat einen, eigens für sich geschriebenen, lokalen Parser. Nach dem erfolgreichen Herunterladen parsen die $n$ lokalen Parser ihre Daten in jeweils ein Inputfile. Somit haben wir $n$ Inputfiles. Wenn diese Schleife beendet ist, wird der globale Parser alle $n$ Inputfiles einlesen und aus diesen $n$ Dateien zwei Textdateien erstellen - eine Metadaten-Datei und eine Mutations-Datei. Diese zwei Dateien werden dann vom DWH per COPY-Befehl eingelesen, die Metadaten zuerst, um Probleme mit der Relation zu verhindern, danach die Mutationen.}
 \subsection{Datenbankentwurf}
 \includepicture[width=0.5\textwidth]{integration/DB.png}{Entwurf der Datenbank\\ Die, bereits bei dem Attributmapping genannten, Attribute werden in zwei Tabellen gestaffelt, um eine effizientere und weniger fehleranfällige Struktur zu haben.  Man kann sich möglicherweise sogar Einträge sparen, da es vorkommen kann, dass mehrere Mutationen von der gleichen Person stammen. Außerdem können die Anfragen der Middleware somit auch besser durchgeführt werden.}\\
 Erklärungen der Attribute der "Mutation"-Tabelle:\\
@@ -80,7 +84,7 @@ Nach dieser Entscheidung benötigten wir ein Datenbankmanagementsystem, was den 
 Der lokale Parser wird auf die jeweilige Quelle zugeschnitten sein. Er wird die vorher heruntergeladenen Dateien entpacken, entschlüsseln und danach die relevanten Daten aus den Dateien herauslesen und in einem einheitlichen Format für den globalen Parser abspeichern.\\
 Der globale Parser wird die Einheitsdateien der lokalen Parser nehmen, die beinhaltenden Daten in einzelne Datensätze aufteilen und diese dann in der Datenbank abspeichern und sie somit der Middleware bereitstellen.
 \subsection{Klassendigramm}
-\includegraphics[width=\textwidth]{integration/Klassendiagramm.png}
+\includepicture[width=\textwidth]{integration/Klassendiagramm.png}
 \subsection{Schnittstellenspezifikation}
 \subsubsection{Schnittstelle: Integration - Middleware}
 Die Schnittstelle zwischen der Integration und der Middleware ist die, im Modell sichtbare, Datenbank. Sie ist der Ort, an dem die Integration die Daten bereitstellt und von wo die Middleware sich die Daten für die Anfragen abholt.

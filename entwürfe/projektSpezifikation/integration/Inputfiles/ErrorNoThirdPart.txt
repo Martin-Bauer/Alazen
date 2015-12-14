@@ -1,0 +1,10 @@
+Referenzgenomname:GRCh38
+Quelle:1000GenomeProjekt
+$$
+SampelID:GP0011
+Genkoordinaten:6:19:19
+Mutationssequenz:AGTCTAGTA
+SampelID:GP0012
+Genkoordinaten:6:134:134
+Mutationssequenz:AGTCTA
+$$
