@@ -88,6 +88,7 @@ Jede Quelle wird einen eigenen Parser haben, der die nötigen Daten aus den heru
 Der globale Parser wird danach sämtliche, von den lokalen Parsern erstellte, Inputfiles parsen und in zwei Textdateien abspeichern, eine mit den Mutations-Datensätzen, eine mit den Metadaten-Datensätzen. Das DWH wird diese zwei Dateien dann per COPY-Befehl einlesen. 
 \subsection{Klassendigramm}
 \includepicture[width=\textwidth]{integration/Klassendiagramm.png}{Klassendiagramm der Integration}
+Das Klassendiagramm verdeutlicht den linearen Ablauf des Integrationsprozesses. Zuerst werden die Quellen per Skript heruntergeladen und dann an die lokalen Parser übergeben. Diese parsen die Dateien dann in Inputfiles und übergeben diese an den globalen Parser übergeben. Dieser parset diese Dateien in Datenfiles, die danach mit dem COPY-Befehl des DWH in selbiges integriert werden.
 \subsection{Schnittstellenspezifikation}
 \subsubsection{Schnittstelle: Integration - Middleware}
 Die Schnittstelle zwischen der Integration und der Middleware ist die, im Modell sichtbare, Datenbank. Sie ist der Ort, an dem die Integration die Daten bereitstellt und von wo die Middleware sich die Daten für die Anfragen abholt.
