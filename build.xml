@@ -28,4 +28,6 @@
 
     <target name="main" depends="clean,run"/>
 
+    <target name="test" depends="main"/>
+
 </project>
