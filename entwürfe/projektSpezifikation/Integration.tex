@@ -1,5 +1,4 @@
 % !TEX root = Projektspezifikation.tex
-
 \section{Integration}
 \subsection{Integrationsprozess}
 \subsubsection{Ablauf der Integration}
@@ -15,10 +14,7 @@ Der Metadatensatz besteht aus einer eindeutigen ID, der Quelle, woher die Daten 
 \subsubsection{Mengengerüst}
 
 
-
-
 %tbd
-
 
 
 \subsubsection{Inputfile-Format vom lokalen Parser erzeugt}
@@ -36,14 +32,18 @@ EOF\\
 \\
 Der lokale Parser wird für jeden Datensatz einen Eintrag in dieser Art in sein Inputfile schreiben, so dass er, nach erfolgreichem Parsen eine Textdatei mit entsprechend vielen Einträgen dieser Art hat.\\
 \subsubsection{Inputfile vom globalen Parser erzeugt}
-Es werden zwei Textdateien erstellt werden, eine für die Metadaten-Datensätze und eine für die Mutations-Datensätze. Diese werden danach per COPY-Befehl vom DWH eingelesen. Für diesen Befehl benötigen beide Dateien einen bestimmten Aufbau: Jedes Attribut ist voneinander per Leerzeichen getrennt und jede Zeile beherbergt einen Datensatz. 
+Es werden zwei Textdateien erstellt werden, eine für die Metadaten-Datensätze und eine für die Mutations-Datensätze. Diese werden danach per COPY-Befehl vom DWH eingelesen. Für diesen Befehl benötigen beide Dateien einen bestimmten Aufbau: Jedes Attribut ist voneinander per Leerzeichen getrennt und jede Zeile beherbergt einen Datensatz.
 \subsubsection{Sequenzdiagramm}
-\includepicture[width=\textwidth]{integration/SQDiag.png}{Sequenzdiagramm des Integrationsprozesses\\ Der Ablauf besteht aus zwei Schleifen: Zuerst wird der gesamte Prozess von hinten gestartet, um zu gewährleisten, dass vor Beginn des Integrationsprozesses alle Teilprozesse laufen um Probleme während des Prozesses zu vermeiden. Der globale Parser wird gestartet, startet von sich aus die $n$ lokalen Parser, welche dann die Daten ihrer $n$ Quellen herunterladen. Jede Quelle hat einen, eigens für sich geschriebenen, lokalen Parser. Nach dem erfolgreichen Herunterladen parsen die $n$ lokalen Parser ihre Daten in jeweils ein Inputfile. Somit haben wir $n$ Inputfiles. Wenn diese Schleife beendet ist, wird der globale Parser alle $n$ Inputfiles einlesen und aus diesen $n$ Dateien zwei Textdateien erstellen - eine Metadaten-Datei und eine Mutations-Datei. Diese zwei Dateien werden dann vom DWH per COPY-Befehl eingelesen, die Metadaten zuerst, um Probleme mit der Relation zu verhindern, danach die Mutationen.}
+\includepicture[width=\textwidth]{integration/SQDiag.png}{Sequenzdiagramm des Integrationsprozesses}
+Der Ablauf besteht aus zwei Schleifen: Zuerst wird der gesamte Prozess von hinten gestartet, um zu gewährleisten, dass vor Beginn des Integrationsprozesses alle Teilprozesse laufen um Probleme während des Prozesses zu vermeiden. Der globale Parser wird gestartet, startet von sich aus die $n$ lokalen Parser, welche dann die Daten ihrer $n$ Quellen herunterladen. Jede Quelle hat einen, eigens für sich geschriebenen, lokalen Parser. Nach dem erfolgreichen Herunterladen parsen die $n$ lokalen Parser ihre Daten in jeweils ein Inputfile. Somit haben wir $n$ Inputfiles. Wenn diese Schleife beendet ist, wird der globale Parser alle $n$ Inputfiles einlesen und aus diesen $n$ Dateien zwei Textdateien erstellen - eine Metadaten-Datei und eine Mutations-Datei. Diese zwei Dateien werden dann vom DWH per COPY-Befehl eingelesen, die Metadaten zuerst, um Probleme mit der Relation zu verhindern, danach die Mutationen.
+\newpage
 \subsection{Datenbankentwurf}
-\includepicture[width=0.5\textwidth]{integration/DB.png}{Entwurf der Datenbank\\ Die, bereits bei dem Attributmapping genannten, Attribute werden in zwei Tabellen gestaffelt, um eine effizientere und weniger fehleranfällige Struktur zu haben.  Man kann sich möglicherweise sogar Einträge sparen, da es vorkommen kann, dass mehrere Mutationen von der gleichen Person stammen. Außerdem können die Anfragen der Middleware somit auch besser durchgeführt werden.}\\
+\includepicture[width=0.5\textwidth]{integration/DB.png}{Entwurf der Datenbank}
+Die, bereits bei dem Attributmapping genannten, Attribute werden in zwei Tabellen gestaffelt, um eine effizientere und weniger fehleranfällige Struktur zu haben. Man kann sich möglicherweise sogar Einträge sparen, da es vorkommen kann, dass mehrere Mutationen von der gleichen Person stammen. Außerdem können die Anfragen der Middleware somit auch besser durchgeführt werden.\\
 Erklärungen der Attribute der "Mutation"-Tabelle:\\
 \\
 \begin{tabular}{|l|c|c|c|c|r|}
+\hline
 Name & Typ & Format & Wertebereich & Beispiel & Notwendigkeit\\
 \hline
 MutationID & integer & i & 0 - 2.147.483.647 & 1, 2, 3, ...& notwendig\\
@@ -61,10 +61,12 @@ Referenzname & text & String & beliebig lang & 'GRCh38' & notwendig\\
 Chromosom & char(2) & cc & X, Y oder 0 - 99 & 'X', 'Y', '64' & nicht notwendig\\
 \hline
 MetadatenID & int & i & 0 - 2.147.483.647 & 1, 2, 3, ... & notwendig\\
+\hline
 \end{tabular}\\
 \\
 Erklärungen der Attribute der "Metadaten"-Tabelle:\\
 \begin{tabular}{|l|c|c|c|c|r|}
+\hline
 Name & Typ & Format & Wertebereich & Beispiel & Notwendigkeit\\
 \hline
 MetadatenID & int & i & 0 - 2.147.483.647 & 1, 2, 3, ... & notwendig\\
@@ -76,6 +78,7 @@ Geschlecht & char & c & m oder w & 'm', 'w' & nicht notwendig \\
 Herkunft & text & Länderkürzel & Länderkürzel (meist dreistellig) & 'GBR' & nicht notwendig\\
 \hline
 Downloadzeit & date & dd/mm/yyyy & Bis zum Jahr 5874897 n.Chr. & '24/12/2015' & nicht notwendig, wird aber per Default auf heutigen Tag eingetragen\\
+\hline
 \end{tabular}\\
 \\
 Wir entschieden uns für diesen Aufbau, da die Abfragen des Users sich in zwei Bereichen unterteilt: Die Mutation selber und die dazugehörigen Metadaten. Eine Separierung dieser beiden Teilgruppen gibt der Middleware mehr Möglichkeiten schneller und effizienter das gewünschte Ergebnis zu finden. Dabei muss aber beachtet werden, dass es noch eine Relation zwischen den beiden Tabellen geben muss, damit jede Mutation genau einen Metadaten-Datensatz zugewiesen bekommt. Dies war der Grund, weshalb wir uns für das relationale Datenbankschema entschieden. Dieses Datenbankschema gibt uns die Möglichkeit, eine Relation zwischen den Mutationen und den Metadaten zu erstellen.\\
@@ -84,7 +87,7 @@ Nach dieser Entscheidung benötigten wir ein Datenbankmanagementsystem, was den 
 Der lokale Parser wird auf die jeweilige Quelle zugeschnitten sein. Er wird die vorher heruntergeladenen Dateien entpacken, entschlüsseln und danach die relevanten Daten aus den Dateien herauslesen und in einem einheitlichen Format für den globalen Parser abspeichern.\\
 Der globale Parser wird die Einheitsdateien der lokalen Parser nehmen, die beinhaltenden Daten in einzelne Datensätze aufteilen und diese dann in der Datenbank abspeichern und sie somit der Middleware bereitstellen.
 \subsection{Klassendigramm}
-\includepicture[width=\textwidth]{integration/Klassendiagramm.png}
+\includepicture[width=\textwidth]{integration/Klassendiagramm.png}{TODO}
 \subsection{Schnittstellenspezifikation}
 \subsubsection{Schnittstelle: Integration - Middleware}
 Die Schnittstelle zwischen der Integration und der Middleware ist die, im Modell sichtbare, Datenbank. Sie ist der Ort, an dem die Integration die Daten bereitstellt und von wo die Middleware sich die Daten für die Anfragen abholt.
