@@ -1,27 +1,35 @@
 <project name="alazen" basedir="." default="main">
 
-    <property name="integration.dir"    value="src"/>
+    <property name="integration.dir"    value="integration"/>
+    <property name="integration.build"	value="build.xml"/>
+
     <property name="middleware.dir"	    value="middleware"/>
+    <property name="middleware.build"	value="build.xml"/>
+
     <property name="gui.dir"            value="frontend"/>
+    <property name="gui.build"          value="build.xml"/>
 
-    <property name="middleware.build"	value="${middleware.dir}/build.xml"/>
+    <!--  <property name="main-class"  value="TBA"/> -->
 
-    <property name="main-class"  value="oata.FUELLMICHAUS"/>
 
     <target name="clean">
-     	<ant antfile="build.xml" dir="${middleware.dir}" target="clean" />
+     	<ant antfile="${integration.build}" dir="${integration.dir}" target="clean" />
+     	<ant antfile="${middleware.build}" dir="${middleware.dir}" target="clean" />
     </target>
 
     <target name="compile">
-     	<ant antfile="${middleware.dir}/build.xml" target="compile" />
+     	<ant antfile="${integration.build}" dir="${integration.dir}" target="compile" />
+     	<ant antfile="${middleware.build}" dir="${middleware.dir}" target="compile" />
     </target>
 
     <target name="jar" depends="compile">
-       <ant antfile="${middleware.dir}/build.xml" target="jar" />
+     	<ant antfile="${integration.build}" dir="${integration.dir}" target="jar" />
+        <ant antfile="${middleware.build}" dir="${middleware.dir}" target="jar" />
     </target>
 
     <target name="run" depends="jar">
-       <ant antfile="${middleware.dir}/build.xml" target="run" />
+        <ant antfile="${integration.build}" dir="${integration.dir}" target="run" />
+        <ant antfile="${middleware.build}" dir="${middleware.dir}" target="run" />
     </target>
 
     <target name="clean-build" depends="clean,jar"/>
