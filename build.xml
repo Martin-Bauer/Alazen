@@ -1,0 +1,31 @@
+<project name="alazen" basedir="." default="main">
+
+    <property name="integration.dir"    value="src"/>
+    <property name="middleware.dir"	    value="middleware"/>
+    <property name="gui.dir"            value="frontend"/>
+
+    <property name="middleware.build"	value="${middleware.dir}/build.xml"/>
+
+    <property name="main-class"  value="oata.FUELLMICHAUS"/>
+
+    <target name="clean">
+     	<ant antfile="build.xml" dir="${middleware.dir}" target="clean" />
+    </target>
+
+    <target name="compile">
+     	<ant antfile="${middleware.dir}/build.xml" target="compile" />
+    </target>
+
+    <target name="jar" depends="compile">
+       <ant antfile="${middleware.dir}/build.xml" target="jar" />
+    </target>
+
+    <target name="run" depends="jar">
+       <ant antfile="${middleware.dir}/build.xml" target="run" />
+    </target>
+
+    <target name="clean-build" depends="clean,jar"/>
+
+    <target name="main" depends="clean,run"/>
+
+</project>
