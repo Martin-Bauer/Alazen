@@ -24,7 +24,7 @@ Now you have a (remote copy) where you can push to.
 
 ### 5) Clone your forked repo
 
-    $ git clone git@github.com:hu-semesterprojekt-genombrowser/VGB.git
+    $ git clone --recursive https://github.com/hu-semesterprojekt-genombrowser/Alazen.git
 
 ### 6) Visit the forked repo on github
 

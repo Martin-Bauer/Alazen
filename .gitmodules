@@ -1,0 +1,11 @@
+[submodule "Integration"]
+    path = integration
+    url = https://github.com/hu-semesterprojekt-genombrowser/Alazen-Integration.git
+
+[submodule "Middleware"]
+    path = middleware
+    url = https://github.com/hu-semesterprojekt-genombrowser/Alazen-Middleware.git
+
+[submodule "Frontend"]
+    path = frontend
+    url = https://github.com/hu-semesterprojekt-genombrowser/Alazen-GUI.git
