@@ -1,5 +1,5 @@
 # Project VGB
-
+[![Build Status](https://travis-ci.org/hu-semesterprojekt-genombrowser/Alazen.svg?branch=master)](https://travis-ci.org/hu-semesterprojekt-genombrowser/Alazen)
 ## How to clone this Repository
 
 ### 1) Make github account
