@@ -1,0 +1,159 @@
+% !TEX root = Projektspezifikation.tex
+\section{Einleitung}
+Dieses Dokument ist die Projektspezifikation für das Semesterprojekt zur verteilten Echtzeitrecherche in Genomdaten. 
+Hierbei umfasst der Begriff "'Genomdaten"':
+\\
+\begin{description}
+\item[Chromosomen] enthalten das Erbgut eines Menschen. Sie enthalten somit die DNA, auf welcher die einzelnen Gene abgebildet sind. Verschiedene Spezies haben unterschiedlich viele Chromosomen und Gene. 
+\\ Für dieses Projekt beziehen wir uns ausschließlich auf die 24 Chromosomen des Menschen. Hier sind die zwei Geschlechtschromosomen X und Y bereits enthalten.
+
+\item[Gene] bestehen aus einer Sequenz von Basen, welche ein zu synthetisierendes Protein kodieren. Jedes Gen kodiert ein oder mehrere Proteine. Jedes Gen kann auf Grund seiner Genkoordinaten entweder identifiziert, oder seine Sequenz anhand der Koordinaten gefunden werden.
+
+\item[Genkoordinaten] geben an, auf welchem Abschnitt von welchem Chromosom ein Gen liegt. Chromosom und Gen bilden somit die Koordinate.
+Hierbei werden die untere und die obere Grenze angegeben.
+
+\item[Basenpaare] ergeben sich durch die Doppelhelix-Struktur der DNA.\\ Es gibt vier Basen:
+\begin{enumerate}
+\item Adenin (A) 
+\item Cytosin (C)
+\item Guanin (G)
+\item Thymin (T)
+\end{enumerate}
+ von denen jeweils zwei Gegenstücke zueinander sind. Diese Paare sind A - T und C - G. Es folgt also, dass nur diese Basenpaare in der Helix vorhanden sind.\\
+Spricht man von Mbp, so sind dies Megabasenpaare, hierbei entspricht\\
+1Mbp = 1000000 Bp (Basenpaare).
+
+\item[Mutationen] sind Abweichungen in der Basensequenz eines Gens zum Referenzgenom. Das heißt:\\Unterscheidet sich an einer spezifischen Stelle des Chromosoms eines Probanden eine Base zu der im Referenzgenom verzeichneten, so kann dies eine Punktmutation sein. Wirkt sich die Veränderung jedoch nicht weiter aus, so handelt es sich nur um eine Variante des Basenpaares. Dies wird auch als Einzelnukleotid-Polymorphismus (SNP) bezeichnet.\\
+Weiterhin existieren bestimmte Basensequenzen innerhalb der Gen, welche mehrfach hintereinander wiederholt werden. Die Anzahl der Wiederholungen kann von Mensch zu Mensch unterschiedlich sein. Diesen Sachverhalt bezeichnet man als Kopienzahlvariation (CNV).\\
+Neben CNVs können auch fehlende oder zusätzliche Basenpaare in bestimmten Basensequenzen auftreten. Diese fehlenden bzw. zusätzlichen Basenpaare bezeichnet man als Indel.\\
+
+
+\item[Das Referenzgenom] wird in unregelmäßigen Abständen neu ermittelt. Anhand dieses Genoms werden alle weiteren Sequenzierungen von Basenpaaren überprüft und Mutationen ermittelt. Das aktuelle Referenzgenom GRCh38.p5\footnote{\label{foot:0}http://www.ncbi.nlm.nih.gov/projects/genome/assembly/grc/human/} ist am 25. September 2015 herausgegeben worden.
+\end{description}
+Im folgenden Dokument wird die Realisierung des Softwareprojektes erläutert.
+\newpage
+
+
+\section{Aufgabenstellung und Anforderungen}
+\subsection{Aufgabenstellung}
+Es soll ein System entwickelt werden, welches in Echtzeit Genomdaten durchsucht und die grafische Auswertung übernimmt. 
+\subsection{Anforderungen}
+\begin{itemize}
+
+\item Es werden vier Datenbanken fest integriert: 
+\begin{itemize}
+\item HGMD\footnote{\label{foot:1}http://www.hgmd.cf.ac.uk/ac/index.php}
+\item dbSNP\footnote{\label{foot:2}http://www.ncbi.nlm.nih.gov/SNP/}
+\item 1000 Genomes Project\footnote{\label{foot:3}http://www.1000genomes.org/}
+\item The Cancer Genome Atlas: Lung and Colorectal Cancer\footnote{\label{foot:4}http://cancergenome.nih.gov/}
+\end{itemize}
+Weiterhin wird das System für weitere (eigene) Datenquellen erweiterbar sein.
+
+\item Folgende Informationen werden bereitgestellt:
+\begin{itemize}
+\item Metadaten: Datenquelle, Zeitpunkt des Downloads
+\item Genkoordinate der Mutation (ggf. Abschnitt)
+\item Mutierte Basensequenz (auch Referenzgenom muss bekannt sein)
+\item (relative) Häufigkeit der Mutationen
+\item Quellspezifische Sample-Attribute (Krankheit, Geschlecht, etc.)
+\end{itemize}
+
+\item Eine Anfrage wird in <1 Sekunde durchlaufen.\\
+Zulässige Anfragen sind:
+\begin{itemize}
+\item Intervallanfragen:
+\begin{itemize}
+\item Anfrage mit: Chromosom, linke und rechte Grenze (Genkoordinaten)
+\item Systemkorrektur: Intervall >10Mbp führt dazu, dass ein Fehler geworfen wird
+\item Ergebnis: Mutationen in dem Abschnitt
+\end{itemize}
+\item Genanfragen:
+\begin{itemize}
+\item Anfrage mit: Name eines humanen Gens
+\item Systemkorrektur: Namensvorschläge, wenn Genname nicht vollständig bekannt
+\item Ergebnis: Vom System bestimmter Genabschnitt, sowie die darauf befindlichen Mutationen
+\end{itemize} 
+\end{itemize}
+\newpage
+Folgende Filter werden zur Suchoptimierung angeboten:
+\begin{itemize}
+\item Einschänkung auf Quelle
+\item Einschänkung auf relative Häufigkeit
+\item Gleichheit quellspezifischer Attribute
+\end{itemize}
+
+\item Die Darstellung erfolgt:
+\begin{itemize}
+\item je Datenquelle
+\item mit einem max. 10Mbp großen Ausschnitt des Chromosoms
+\item mit Referenzgenom zum Vergleich bei kleinen Abschnitten
+\item mit Anzeige der Basenpaare und Markierung von Mutationen in kleinen Abschnitten ($\leq$ 200Bp)
+\item mit Andeutung der Verteilung der Häufigkeit von Mutationen in großen Abschnitten (> 200Bp)
+\end{itemize}
+Zudem bietet das Interface interaktive Möglichkeiten:
+\begin{itemize}
+\item Zoomfunktion mit fünf Stufen, um den dargestellten Bereich zu verkleinern oder zu vergrößern
+\item Scrollen, um sich horizontal auf dem Chromosom fortzubewegen
+\item Konfigurationsmöglichkeiten zur Darstellung und anderer Systembereiche
+\end{itemize}
+
+\item Das System wird unter Mozilla Firefox laufen und auf bestehenden Webservern leicht einzurichten sein
+\end{itemize}
+
+\newpage
+\section{Beispiele zur Nutzung: Use Cases}
+\subsection{Use Case 1}
+Ein Benutzer möchte herausfinden, welche Mutationen im Bereich von 144MB – 154MB auf dem Chromosom 7 auftreten können. Hierfür wählt er die 1000 Genomes Projekt-Datenbank aus. \\
+Das ganze Chromosom wird in einem eigenen Anzeigebereich (Lane) im Vergleich zum Referenzgenom angezeigt. Er erkennt durch eine Markierung, dass im Bereich von 150MB-152MB gehäuft Mutationen auftreten können. Da er diesen Bereich nicht detailliert einsehen kann, zoomt der Benutzer herein. Die Basenpaare in der 1000 Genomes-Lane sind immer detaillierter zu erkennen, bis er genau einsehen kann, welche Mutationen auftreten können. Bei Erreichen der maximale Zoomstufe, sind alle Basenpaare des Chromosoms 7 und des Referenzgenoms, das nun eingeblendet wird, zu erkennen und er kann die auftretenden Mutationen betrachten.
+\subsection{Use Case 2}
+Ein Benutzer möchte herausfinden, welche Mutationen bei einer bestimmten relativen Häufigkeit im Bereich eines Gens auftreten. Da er sich sehr für den colorectalen Bereich interessiert, wählt er The Cancer Genome Atlas (TCGA) aus. Da der Benutzer nicht den genauen Namen des Gens kennt und sich bei der Eingabe irrt, bekommt er keine Basenpaare angezeigt, sondern Vorschläge, welches Gen er gesucht haben könnte. Auf Grund der Vorschläge erinnert sich der Benutzer und wählt das korrekte Gen. \\
+Es erscheint eine Lane, welche die Daten für den Bereich darstellt und der Benutzer erkennt die Bereiche, in welchen Mutationen auftreten. Zusätzlich werden ihm die relativen Häufigkeiten der Mutationen angezeigt.
+\subsection{Use Case 3}
+Ein Benutzer möchte sich darüber informieren, mit welcher Häufigkeit in einem bestimmten Bereich eines bestimmten Gens Mutationen auftreten können. Hierbei wählt er die HGMD mit einem Bereich von 140MB – 155MB. Da der Bereich jedoch zu groß ist,
+wird ihm nur der Bereich von 140MB-150MB dargestellt. \\
+Er erkennt in diesem Bereich, dass sehr wenig Mutationen auftreten. Ihn interessiert jedoch ebenfalls, ob bei Krebspatienten höhere Mutationsraten existieren. Dazu führt er die gleiche Suche noch einmal aus, wählt jedoch zusätzlich TCGA für Lungenkrebs und TCGA für Colorectalkrebs. \\
+Als Ergebnis werden ihm die drei Lanes untereinander angezeigt und er kann die Häufigkeit von Mutationen in den Bereichen vergleichen.
+
+\newpage
+\section{Umsetzung}
+\subsection{Vorgehensweise des Systems}
+Damit dem System Daten zur Verfügung stehen, müssen die vier Hauptdatenbanken zuerst aus dem Internet heruntergeladen werden.\\
+Nachdem der Download erfolgreich war, werden die Datenbanken in ein einheitliches Format überführt. Ist die Vereinheitlichung vollzogen, können nun die humanen Datensätze herausgefiltert und in die eigens entworfene Datenbank (DWH) eingespeichert werden.
+\\
+Sind alle Daten verarbeitet und somit das DWH vollständig, stehen die Daten bei Programmstart zum Aufbau des verteilten Index zur Verfügung. \\
+Wurde der verteilte Index fertig gebaut, kann der Benutzer nun Anfragen an das System absenden. Die Anfragen werden vom Benutzeroberfläche (GUI) an die Middleware geschickt. Hier werden die Anfragen validiert und gegebenenfalls korrigiert. Sind die Anfragen korrekt, werden diese über dem verteilten Index ausgeführt und die Ergebnisse an das GUI zurückgegeben. Hat das GUI die Ergebnisdaten empfangen, werden diese grafisch aufbereitet.\\\\
+Folgendes Kommunikationsdiagramm verdeutlicht hierbei den Ablauf:\\\\
+\begin{center}
+\begin{tikzpicture}[%
+>=stealth,
+node distance=5cm,
+on grid,
+draw,
+align=left
+]
+\node[rectangle, draw, initial,initial text=] (0) {Download\\der Datensätze};
+\node[rectangle, draw] (1) [right=3cm of 0] {Parsing};
+\node[rectangle, draw] (2) [right=3cm of 1] {Einfügen\\in DHW};
+\node[rectangle, draw] (3) [below=2cm of 0] {Aufbau der \\Index Bäume};
+\node[rectangle, draw] (4) [right of=3] {Suchoperationen in den\\Bäumen ausführen};
+\node[rectangle, draw] (5) [below=2cm of 3] {Daten darstellen};
+\path[->] (0) edge node {} (1);
+\path[->] (1) edge node {} (2);
+\path[->] (2) edge node {} (3);
+\path[->] (3) edge node {} (4);
+\path[<->,bend left, left] (4) edge node {JSON} (5);
+\end{tikzpicture}
+\end{center}
+\newpage
+\subsection{Arbeitsbreiche}
+Zur Umsetzung des Systems müssen, wie aus \textit{4.1} hervorgeht, drei Hauptbereiche abgedeckt werden. Diese sind:
+\begin{description}
+\item[Integration:] Zuständigkeitsbereiche der Integration sind die Aufbereitung der Datenquellen und die Bereitstellung der aufbereiteten Datensätze in einer eigens entworfenen Datenbank.
+
+\item[Middleware:] Die Middleware ist für die Kommunikation zwischen Datenbank und Frontend zuständig. Um die vom Frontend an die Middleware gesendeten Anfragen effizient bearbeiten zu können, befasst sich die Middleware mit dem Entwurf eines verteilten Index. Dieser ermöglicht die zeiteffiziente Suche in den Daten der Datenbank und somit eine zeiteffiziente Rückgabe der Ergebnisse an das GUI.
+
+\item[Frontend:] Das Frontend ist für die grafische Aufbereitung der Ergebnisdaten, sowie für das GUI zur Bedienung des Systems zuständig.
+\end{description}
+Im folgenden werden die Teilbereiche, die Grundzüge ihrer Realisierung, sowie die Verwendung findenden Technologien erläutert. Des Weiteren werden offene Fragen und Risiken der einzelnen Realisierungen angesprochen.
+
+\newpage
