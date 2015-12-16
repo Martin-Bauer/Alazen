@@ -96,33 +96,8 @@ Die Schnittstelle zwischen der Integration und der Middleware ist die, im Modell
 Die Schnittstelle zwischen der Integration und dem Benutzer ist das Hinzufügen neuer Quellen. Der Nutzer wird angehalten sein, zu wissen, wie seine neue Quelle aufgebaut ist, da er selber ein Downloadskript o.ä. dafür schreiben muss, sowie einen lokalen Parser. Diese werden an den entsprechenden Stellen im Programmcode eingefügt. Die lokalen Parser werden durch ein Interface vereinheitlicht.
 \subsection{Tests}
 \subsubsection{Unit-Tests}
-Konkrete Tests konnten wir bisher nicht durchführen, jedoch gibt es einige Dinge zu testen: Es muss getestet werden, ob der lokale Parser arbeitet wie gewünscht, also mindestens 2 Testläufe für ihn: Bei einem, für ihn korrekten Inputfile, muss er ein entsprechend richtiges Outputfile für den globalen Parser erstellen. Sollte er ein Inputfile parsen, was nicht für ihn gedacht ist, soll er das Inputfile verwerfen oder eine Fehlermeldung ausgeben, aber auf alle Fälle das Outputfile nicht mit diesem Input erweitern. Natürlich kann das Inputfile auf verschiedene Weisen korrupt sein, was dort mehrere Testfälle notwendig macht.\\
-Der globale Parser muss auf ähnliche Weisen getestet werden, jedoch kann man bei ihm als Voraussetzung annehmen, dass die lokalen Parser korrekt arbeiten und auch ein korrektes Outputfile erstellt haben. Somit müsste nur überprüft werden, dass der globale Parser die Daten korrekt ausliest und korrekt in die Datenbank einfügt.\\
-\\
-\textbf{Korrektes Inputfile:}\\
-\\
-Referenzgenomname:GRCh38\\
-Quelle:1000Genom\\
-\$\$
-SampelID:HG0094\\
-Genkoordinaten:6:19:19\\
-Mutationssequenz: AGTCTAGTA\\
-\$\$
-SampelID:HG0094\\
-Gender:m\\
-Population:GRB\\
-Download:01:01:2001\\
-\\
-\textbf{Fehlerhaftes Inputfile}\\
-\\
-Referenzgenomname:KeinFehlerMöglich\\
-Quelle:KeinFehlerMöglich\\
-\$\\
-SapelID:KeinFehlerMöglich\\
-Genkoordinaten:67:21:15\\
-Mutationsequenz:ATCERROR\\
-\$\$\\
-SampelID:KeinFehlerMöglich?\\
-Gender:h\\
-Population:XXXX\\
-Download:64:64:2045\\
+Es gibt viele verschiedene Dinge, die getestet werden müssen. Bezüglich des lokalen Parsers, muss getestet werden, wie er  mit einem fehlerhaften Input verfährt, und ob er korrekten Input auch auf korrekte Art und Weise parsed. Sollte er fehlerhaften Input kriegen, soll er den Fehler in einer Extra-Fehlerdatei abspeichern.\\
+Das gleiche muss auch für den globalen Parser getestet werden. Dieser soll sich wie der lokale Parser verhalten, sollte er einen fehlerhaften Input bekommen, muss er diesen Datensatz in einer separaten Fehlerdatei abspeichern, damit der Nutzer sich später diese fehlerhaften Datensätze selber überprüfen kann.\\
+Nach diesem doppelten Fehlertest könnte angenommen werden, dass der Input für das DWH nun korrekt ist, sollte dies nicht der Fall sein, so besitzt das DBMS eine Funktion, die bei einem fehlerhaften Datensatz, das gesamte restliche Einlesen stoppt, jedoch alle bisher eingelesenen Datensätze gespeichert lässt.\\
+Beide Parser werden auch dafür benutzt, um etwaige doppelte Einträge in den Inputfiles herauszufiltern, sodass keine in dem DWH abgespeichert werden.\\
+Im Anhang finden sich einige Testfiles um solche Fälle zu überprüfen.
