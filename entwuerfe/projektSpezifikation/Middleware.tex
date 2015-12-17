@@ -130,16 +130,16 @@ return "index built"\;
 
 \newpage
 \subsection{Klassen-Diagramm}
-\includegraphics[width=\textwidth]{middleware/Middleware_class_3rd_Revision.png}
+\includepicture[width=\textwidth]{middleware/Middleware_class_3rd_Revision.png}{TODO}
 
 \newpage
 \subsection{Sequenzdiagramme}
 \subsubsection{Intervall-Suche}
-\includegraphics[width=\textwidth]{middleware/intervall_seq.png}
+\includepicture[width=\textwidth]{middleware/intervall_seq.png}{TODO}
 \subsubsection{Names-Suche}
-\includegraphics[width=\textwidth]{middleware/namesearch_seq.png}
+\includepicture[width=\textwidth]{middleware/namesearch_seq.png}{TODO}
 \subsubsection{Suche nach Gennamen}
-\includegraphics[width=\textwidth]{middleware/prefix_seq.png}
+\includepicture[width=\textwidth]{middleware/prefix_seq.png}{TODO}
 
 \newpage
 \subsection{Unit-Tests}
@@ -351,9 +351,14 @@ Ausgabe: Fehlermeldung über erfolglosen Indexaufbau
 \subsubsection{Intervallbaum}
 \textbf{1. Intervalle einfügen:}\\
 Das Intervall muss im Baum an der richtigen Stelle eingefügt werden und der Baum muss gegebenenfalls neu balanciert werden (z.B. wie ein AVL-Baum).\\\\
-Bsp.: Einfügen des Intervalls [12,15]\\\\
-\includegraphics[width=0.2\textwidth]{middleware/Testfaelle/1.png}$~~~~~~~~~~~$
-\includegraphics[width=0.3\textwidth]{middleware/Testfaelle/2.png}\\\\
+Bsp.: Einfügen des Intervalls [12,15]
+\begin{figure}[H]
+ \centering
+	\includegraphics[width=0.2\textwidth]{middleware/Testfaelle/1.png}
+	\includegraphics[width=0.3\textwidth]{middleware/Testfaelle/2.png}
+ \caption{TODO}
+ \label{fig:TODO}
+\end{figure}
 \textbf{2. Intervall mit Startpunkt $>$ Endpunkt einfügen:}\\
 Wenn ein Intervall (S,E) mit S$>$E eingefügt wird, dann sollte unser Programm eine Fehlermeldung ausgeben und darauf hinweisen, dass die Grenzen für das Intervall nicht korrekt sind.\\\\
 Bsp.: Einfügen des Intervalls [20,10] in einen beliebigen Baum.\\\\
@@ -363,11 +368,12 @@ Bsp.: Einfügen des Intervalls [-5,7] in einen beliebigen Baum.\newpage\hfill\\
 \textbf{4. Schon vorhandenes Intervall einfügen:}\\
 Duplikate sollen von unserem Baum nicht gespeichert werden, d.h. es wird kein neuer Knoten hinzugefügt, sondern die Informationen (bei uns also Pointer auf Dateien) des neuen Knotens müssen im bereits vorhandenen Knoten mitgespeichert werden.\\\\
 Bsp.: Einfügen des Intervalls [15,20] in den folgenden Baum\\\\
-\includegraphics[width=0.2\textwidth]{middleware/Testfaelle/1.png}\\
+\includepicture[width=0.2\textwidth]{middleware/Testfaelle/1.png}{TODO}
 \textbf{5. Suche nach vorhandenem Intervall:}\\
 Bei der Suche sollen alle Intervalle ausgegeben werden, die das gesuchte Intervall in irgendeinem Punkt überlappen.\\\\
 Bsp.: Suche im folgenden Baum\\\\
-\includegraphics[width=0.3\textwidth]{middleware/Testfaelle/2.png}\\\\Suche [4,5] $\Rightarrow$ gib [5,20] aus\\
+\includepicture[width=0.3\textwidth]{middleware/Testfaelle/2.png}{TODO}
+Suche [4,5] $\Rightarrow$ gib [5,20] aus\\
 Suche [25,35] $\Rightarrow$ gib [10,30] und [30,40] aus\\
 Suche [20,20] $\Rightarrow$ gib [15,20] und [5,20] aus
 \subsection{Stresstests}
