@@ -1,13 +1,17 @@
 \section{Frontend}
 \subsection{Mock-Ups der Benutzerschnittstelle}
-\includepicture[width=\textwidth]{gui/gb_mockup_detail_view.png}{TODO}
-\includepicture[width=\textwidth]{gui/gb_mockup_index_view.png}{TODO}
+\includepicture[width=\textwidth]{gui/gb_mockup_detail_view.png}{Die Detail-Ansicht des Genom Browsers. In dieser Ansicht werden die Mutationen auf dem Referenz-Genom, fuer eine bessere Darstellung, abgebildet. Pro aktiver Quelle wird eine Lane angezeigt.}
+\includepicture[width=\textwidth]{gui/gb_mockup_index_view.png}{Die Aggregierte-Ansicht des Genom Browsers. In dieser Ansicht werden die Mutationen aggregiert dargestellt, fuer eine bessere Uebersicht auf dem Genom.Pro aktiver Quelle wird eine Lane angezeigt.}
 \subsection{Klassen-Diagramm}
-\includepicture[width=\textwidth]{gui/gui-klassendiagramm.png}{TOD}
+\includepicture[width=\textwidth]{gui/gui-klassendiagrammv2.png}{Das Klassen-Diagramm der GUI.}
+\paragraph{Erläuterung der Abbildung \ref{fig:Das Klassen-Diagramm der GUI.}}
+Die \textit{GUIComponent}-Klasse beinhaltet alle Komponenten der GUI und stellt die Kommunikation unter den Komponenten bereit. Die \textit{DaraProvider}-Klasse stellt die Methoden, für die Kommunikation zu der Middleware, bereit. Durch die \textit{LaneContainer}-Klasse werden die \textit{Lanes} erstellt. 
 \subsection{Sequenzdiagramm}
-\includepicture{gui/GUI_Sequenzdiagramm.pdf}{TODO}
+\includepicture{gui/GUI_Sequenzdiagrammv2.png}{Anhand des Sequenzdiagramm wird der Methodenaufruf verdeutlicht.}
 \subsection{Use Cases}
-\includepicture[width=\textwidth]{gui/gui-usecasediagramm.png}{TODO}
+\includepicture[width=\textwidth]{gui/gui-usecasediagrammv2.png}{Das Use-Case-Diagramm listet die Möglichkeiten der Interaktionen mit der GUI auf.}
+\paragraph{Erläuterung des Use-Case (mit Bezug auf das Sequenzdiagramm)}
+Der Benutzer hat die Möglichkeit mit der GUI zu interagieren. Durch das Suchfeld hat der Benutzer die Möglichkeit nach einem Gen zu \textbf{suchen} oder sich eine(n) \textbf{Position / Bereich anzeigen lassen}. Zur genaueren Auswahl kann dieser sich eine \textbf{Chromosom auswählen}. Durch das \textbf{hinzufügen / entfernen} einer oder mehrerer Quellen, kann der Benutzer das Angezeigte weiter eingrenzen. Durch das \textbf{verändern des Zoom-Bereich} kann der Benutzer die Anzahl der angezeigten Basenpaare bestimmen. Durch einfaches \textbf{verschieben der Lane} ist es dem Benutzer möglich, den genauen Bereich zu bestimmen, den dieser betrachten möchte.
 \subsection{Unit-Tests}
 \subsubsection{Suchfunktion}
 \begin{enumerate}
