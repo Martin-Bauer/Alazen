@@ -6,3 +6,5 @@ jdk:
     - openjdk7
 script:
     ant test
+    pdflatex entwuerfe/projektSpezifikation/Projektspezifikation.tex
+
