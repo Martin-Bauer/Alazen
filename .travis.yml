@@ -8,6 +8,6 @@ before_install:
 jdk:
     - openjdk7
 script:
-    ant test
-    pdflatex entwuerfe/projektSpezifikation/    Projektspezifikation.tex
+    - ant test
+    - pdflatex entwuerfe/projektSpezifikation/Projektspezifikation.tex
 
