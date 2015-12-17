@@ -34,18 +34,17 @@ Im folgenden Dokument wird die Realisierung des Softwareprojektes erläutert.
 \newpage
 
 
-\section{Aufgabenstellung und Anforderungen}
-\subsection{Aufgabenstellung}
+\subsection{Aufgabenstellung und Anforderungen}
+\subsubsection{Aufgabenstellung}
 Es soll ein System entwickelt werden, welches in Echtzeit Genomdaten durchsucht und die grafische Auswertung übernimmt. 
-\subsection{Anforderungen}
+\subsubsection{Anforderungen}
 \begin{itemize}
 
-\item Es werden vier Datenbanken fest integriert: 
+\item Es werden drei Datenbanken fest integriert:
 \begin{itemize}
-\item HGMD\footnote{\label{foot:1}http://www.hgmd.cf.ac.uk/ac/index.php}
-\item dbSNP\footnote{\label{foot:2}http://www.ncbi.nlm.nih.gov/SNP/}
-\item 1000 Genomes Project\footnote{\label{foot:3}http://www.1000genomes.org/}
-\item The Cancer Genome Atlas: Lung and Colorectal Cancer\footnote{\label{foot:4}http://cancergenome.nih.gov/}
+\item dbSNP\footnote{\label{foot:1}http://www.ncbi.nlm.nih.gov/SNP/}
+\item 1000 Genomes Project\footnote{\label{foot:2}http://www.1000genomes.org/}
+\item The Cancer Genome Atlas: Lung and Colorectal Cancer\footnote{\label{foot:3}http://cancergenome.nih.gov/}
 \end{itemize}
 Weiterhin wird das System für weitere (eigene) Datenquellen erweiterbar sein.
 
@@ -54,7 +53,7 @@ Weiterhin wird das System für weitere (eigene) Datenquellen erweiterbar sein.
 \item Metadaten: Datenquelle, Zeitpunkt des Downloads
 \item Genkoordinate der Mutation (ggf. Abschnitt)
 \item Mutierte Basensequenz (auch Referenzgenom muss bekannt sein)
-\item (relative) Häufigkeit der Mutationen
+\item Relative Häufigkeit der Mutationen
 \item Quellspezifische Sample-Attribute (Krankheit, Geschlecht, etc.)
 \end{itemize}
 
@@ -101,29 +100,30 @@ Zudem bietet das Interface interaktive Möglichkeiten:
 \end{itemize}
 
 \newpage
-\section{Beispiele zur Nutzung: Use Cases}
-\subsection{Use Case 1}
+\subsection{Beispiele zur Nutzung: Use Cases}
+\subsubsection{Use Case 1}
 Ein Benutzer möchte herausfinden, welche Mutationen im Bereich von 144MB – 154MB auf dem Chromosom 7 auftreten können. Hierfür wählt er die 1000 Genomes Projekt-Datenbank aus. \\
 Das ganze Chromosom wird in einem eigenen Anzeigebereich (Lane) im Vergleich zum Referenzgenom angezeigt. Er erkennt durch eine Markierung, dass im Bereich von 150MB-152MB gehäuft Mutationen auftreten können. Da er diesen Bereich nicht detailliert einsehen kann, zoomt der Benutzer herein. Die Basenpaare in der 1000 Genomes-Lane sind immer detaillierter zu erkennen, bis er genau einsehen kann, welche Mutationen auftreten können. Bei Erreichen der maximale Zoomstufe, sind alle Basenpaare des Chromosoms 7 und des Referenzgenoms, das nun eingeblendet wird, zu erkennen und er kann die auftretenden Mutationen betrachten.
-\subsection{Use Case 2}
+\subsubsection{Use Case 2}
 Ein Benutzer möchte herausfinden, welche Mutationen bei einer bestimmten relativen Häufigkeit im Bereich eines Gens auftreten. Da er sich sehr für den colorectalen Bereich interessiert, wählt er The Cancer Genome Atlas (TCGA) aus. Da der Benutzer nicht den genauen Namen des Gens kennt und sich bei der Eingabe irrt, bekommt er keine Basenpaare angezeigt, sondern Vorschläge, welches Gen er gesucht haben könnte. Auf Grund der Vorschläge erinnert sich der Benutzer und wählt das korrekte Gen. \\
 Es erscheint eine Lane, welche die Daten für den Bereich darstellt und der Benutzer erkennt die Bereiche, in welchen Mutationen auftreten. Zusätzlich werden ihm die relativen Häufigkeiten der Mutationen angezeigt.
-\subsection{Use Case 3}
+\subsubsection{Use Case 3}
 Ein Benutzer möchte sich darüber informieren, mit welcher Häufigkeit in einem bestimmten Bereich eines bestimmten Gens Mutationen auftreten können. Hierbei wählt er die HGMD mit einem Bereich von 140MB – 155MB. Da der Bereich jedoch zu groß ist,
 wird ihm nur der Bereich von 140MB-150MB dargestellt. \\
 Er erkennt in diesem Bereich, dass sehr wenig Mutationen auftreten. Ihn interessiert jedoch ebenfalls, ob bei Krebspatienten höhere Mutationsraten existieren. Dazu führt er die gleiche Suche noch einmal aus, wählt jedoch zusätzlich TCGA für Lungenkrebs und TCGA für Colorectalkrebs. \\
 Als Ergebnis werden ihm die drei Lanes untereinander angezeigt und er kann die Häufigkeit von Mutationen in den Bereichen vergleichen.
 
 \newpage
-\section{Umsetzung}
-\subsection{Vorgehensweise des Systems}
-Damit dem System Daten zur Verfügung stehen, müssen die vier Hauptdatenbanken zuerst aus dem Internet heruntergeladen werden.\\
+\subsection{Umsetzung}
+\subsubsection{Vorgehensweise des Systems}
+Damit dem System Daten zur Verfügung stehen, müssen die drei Hauptdatenbanken zuerst aus dem Internet heruntergeladen werden.\\
 Nachdem der Download erfolgreich war, werden die Datenbanken in ein einheitliches Format überführt. Ist die Vereinheitlichung vollzogen, können nun die humanen Datensätze herausgefiltert und in die eigens entworfene Datenbank (DWH) eingespeichert werden.
 \\
 Sind alle Daten verarbeitet und somit das DWH vollständig, stehen die Daten bei Programmstart zum Aufbau des verteilten Index zur Verfügung. \\
-Wurde der verteilte Index fertig gebaut, kann der Benutzer nun Anfragen an das System absenden. Die Anfragen werden vom Benutzeroberfläche (GUI) an die Middleware geschickt. Hier werden die Anfragen validiert und gegebenenfalls korrigiert. Sind die Anfragen korrekt, werden diese über dem verteilten Index ausgeführt und die Ergebnisse an das GUI zurückgegeben. Hat das GUI die Ergebnisdaten empfangen, werden diese grafisch aufbereitet.\\\\
-Folgendes Kommunikationsdiagramm verdeutlicht hierbei den Ablauf:\\\\
-\begin{center}
+Wurde der verteilte Index fertig gebaut, kann der Benutzer nun Anfragen an das System absenden. Die Anfragen werden vom Benutzeroberfläche (GUI) an die Middleware geschickt. Hier werden die Anfragen validiert und gegebenenfalls korrigiert. Sind die Anfragen korrekt, werden diese über dem verteilten Index ausgeführt und die Ergebnisse an das GUI zurückgegeben. Hat das GUI die Ergebnisdaten empfangen, werden diese grafisch aufbereitet.\\
+Abbildung 1 verdeuttlicht diesen Ablauf:\\
+\begin{figure}[H]
+\centering
 \begin{tikzpicture}[%
 >=stealth,
 node distance=5cm,
@@ -143,10 +143,13 @@ align=left
 \path[->] (3) edge node {} (4);
 \path[<->,bend left, left] (4) edge node {JSON} (5);
 \end{tikzpicture}
-\end{center}
+  \caption{Kommunikationsdiagramm}
+  \label{fig:Kommunikationsdiagramm}
+\end{figure}
 \newpage
-\subsection{Arbeitsbreiche}
-Zur Umsetzung des Systems müssen, wie aus \textit{4.1} hervorgeht, drei Hauptbereiche abgedeckt werden. Diese sind:
+\subsubsection{Arbeitsbreiche}
+Zur Umsetzung des Systems müssen, wie aus \textit{1.3} hervorgeht, drei Hauptbereiche abgedeckt werden. Diese sind:
+
 \begin{description}
 \item[Integration:] Zuständigkeitsbereiche der Integration sind die Aufbereitung der Datenquellen und die Bereitstellung der aufbereiteten Datensätze in einer eigens entworfenen Datenbank.
 
@@ -154,4 +157,4 @@ Zur Umsetzung des Systems müssen, wie aus \textit{4.1} hervorgeht, drei Hauptbe
 
 \item[Frontend:] Das Frontend ist für die grafische Aufbereitung der Ergebnisdaten, sowie für das GUI zur Bedienung des Systems zuständig.
 \end{description}
-Im folgenden werden die Teilbereiche, die Grundzüge ihrer Realisierung, sowie die Verwendung findenden Technologien erläutert. Des Weiteren werden offene Fragen und Risiken der einzelnen Realisierungen angesprochen.
+Im folgenden werden die Teilbereiche, die Realisierung, sowie die Verwendung findenden Technologien erläutert.
