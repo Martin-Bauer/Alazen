@@ -12,11 +12,8 @@ Beide Basis-Datenbanken werden von dem gleichen Anbieter gehostet, was beiden Qu
 Wir entschieden uns, dass das Referenzgenom in einer Extradatei abgespeichert wird, um übermäßigen Traffic im DWH zu vermeiden. Des weiteren werden im DWH folgende Daten der Middleware bereitgestellt: Eine einzigartige ID für jeden Eintrag, die Mutationssequenz selber, die Koordinaten, wo im Referenzgenom die Mutation auftritt, der Name der Quelle, um eine schnelle Einordnung nach Quellen zu gewährleisten, der Name des Referenzgenoms, eine Angabe, in welchem Chromosom die Mutation auftritt, und einen Verweis auf den entsprechenden Metadatensatz der Mutation.\\
 Der Metadatensatz besteht aus einer eindeutigen ID, der Quelle, woher die Daten stammen, dem Geschlecht des Testsubjekts, dem Herkunftsland und der Downloadzeit. Wir entschieden uns für diese Metadaten, da sie in dem 1000GenomeProject bereitgestellt wird. Die dbSNP stellt keine Metadaten bereit. 
 \subsubsection{Mengengerüst}
-
-
-%tbd
-
-
+Eine Schätzung des Mengengerüstes ist für uns nicht möglich, da die Dateien der Quellen keine Schätzung zulassen. Die Dateien reichen in der Größe von einigen KB bis zu mehreren GB, die sehr stark anwachsen, wenn man sie entpackt (mindestens 15-fache Vergrößerung). In diesen Dateien kann man jedoch nicht approximieren, wie groß der Anteil an wichtigen Daten für das DWH ist, und wie viel Datenmüll enthalten ist, da das von Datei zu Datei variiert.\\
+Der Speicherplatz, den die Daten im DWH einnehmen werden, wird sich nach dem Einfügen um das 1,5-fache erhöhen.\\
 \subsubsection{Inputfile-Format vom lokalen Parser erzeugt}
 Referenzgenomname:„Name des Referenzgenoms Bsp: GRCh38“\\
 Quelle:„hier die Quelle angeben“\\
@@ -91,9 +88,10 @@ Der globale Parser wird danach sämtliche, von den lokalen Parsern erstellte, In
 Das Klassendiagramm verdeutlicht den linearen Ablauf des Integrationsprozesses. Zuerst werden die Quellen per Skript heruntergeladen und dann an die lokalen Parser übergeben. Diese parsen die Dateien dann in Inputfiles und übergeben diese an den globalen Parser übergeben. Dieser parset diese Dateien in Datenfiles, die danach mit dem COPY-Befehl des DWH in selbiges integriert werden.
 \subsection{Schnittstellenspezifikation}
 \subsubsection{Schnittstelle: Integration - Middleware}
-Die Schnittstelle zwischen der Integration und der Middleware ist die, im Modell sichtbare, Datenbank. Sie ist der Ort, an dem die Integration die Daten bereitstellt und von wo die Middleware sich die Daten für die Anfragen abholt.
+Die Schnittstelle zwischen der Integration und der Middleware besteht darin, dass sich die Middleware per SQL Anfragen die, vom Nutzer gewünschten Daten, aus dem DWH lädt. Außerdem dient die Middleware als Bindeglied zwischen dem User und der Integration, da die Middleware die Einschränkungen der Anfrage des Users an die Middleware weitergibt und sich etwaige Auswahlmöglichkeiten an den User weitergibt.
 \subsubsection{Schnittstelle: Integration - Benutzer}
-Die Schnittstelle zwischen der Integration und dem Benutzer ist das Hinzufügen neuer Quellen. Der Nutzer wird angehalten sein, zu wissen, wie seine neue Quelle aufgebaut ist, da er selber ein Downloadskript o.ä. dafür schreiben muss, sowie einen lokalen Parser. Diese werden an den entsprechenden Stellen im Programmcode eingefügt. Die lokalen Parser werden durch ein Interface vereinheitlicht.
+Der User kann seine Anfragen nach speziellen Gesichtspunkten einschränken, welche er von der Integration gestellt kriegen muss. Diese Punkte wird die Middleware ihm übergeben.\\
+Außerdem kann ein User weitere Quelldatenbanken integrieren, indem er ein Downloadskript und einen lokalen Parser in der Ordnerstruktur bereitstellt und sie in die Liste der Quellen einträgt.\\
 \subsection{Tests}
 \subsubsection{Unit-Tests}
 Es gibt viele verschiedene Dinge, die getestet werden müssen. Bezüglich des lokalen Parsers, muss getestet werden, wie er  mit einem fehlerhaften Input verfährt, und ob er korrekten Input auch auf korrekte Art und Weise parsed. Sollte er fehlerhaften Input kriegen, soll er den Fehler in einer Extra-Fehlerdatei abspeichern.\\
