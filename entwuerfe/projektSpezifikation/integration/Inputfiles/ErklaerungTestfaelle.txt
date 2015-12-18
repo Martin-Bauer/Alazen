@@ -1,0 +1,47 @@
+
+Positive Testfaelle:
+Testfall 1: 
+Angenommen wird ein File, das nur Quelle und Referenzgenom enthaelt. Dabei entstehen 
+aber keine Daten und diesem Fall soll kaum Beachtung geschenkt werden.
+Testfall 2:
+Ein File wie TestMuta2Meta1 soll angenommen werden. Dabei werden allen Mutationen die selben 
+Metadaten zugeordnet.
+Testfall 3:
+Ein File wie TestMuta2Meta2 soll angenommen werden. Dabei werden nicht allen Mutationen auch 
+die selben Metadaten zugeordnet sondern es gibt mehrere Metadaten die referenziert werden.
+
+Mehr Testfaelle positiven Ausgangs scheinen zum jetzigen Zeitpunkt nicht notwendig.
+
+Negative Testfaelle:
+
+Testfall 1:(ErrorNoFirstPart)
+Beim Testfile fehlt der erste Teil. Ein solches Testfile wird nicht akzeptiert, da die Quelle und das
+Referenzgenom nicht vorhanden sind und daher auch nicht eintragbar sind.
+Testfall 2:(ErrorNoSecondPart)
+Im Testfile sind sowohl Eintraege im ersten als auch letzten Teil des Inputfiles aber nicht im zweiten.
+Ein Solches Testfile darf nicht akzeptiert werden, da einer Menge an Metadaten keine Mutation zugeordnet 
+werden kann.
+Testfall 3:(ErrorNoThirdPart)
+Im Testfile gibt es nur Eintraege im ersten und zeiten Teil aber nicht im letzten. Daher sollen ein solches
+Testfiles nicht akzeptiert werden, da den Mutationen keine Metadaten zugeordnet werden kann.
+Testfall 4:(ErrorKeinSinnvollesDatum)
+Bei diesem Testfall ist das Datum unmoeglich da entweder das Jahr noch nicht erreicht ist oder ein nicht moeglicher 
+Tag, Monat oder Tag fuer den jeweiligen Monat im Datum steht. 
+Testfall 5:(ErrorKeinSinnvollesGender) 
+Das Geschlecht ist nicht m oder f und daher wird das Testfile nicht anerkannt.
+Testfall 6:(ErrorBeiDerRechtschreibung)
+An irgendeiner Stelle des Files wird ein Rechtschreibfehler gefunden und daher wird das Testfile nicht akzeptiert.
+Testfall 7:(ErrorKeineMoeglichePopulation)
+Die Population wird durch eine String groeﬂer Drei angegeben und daher wird das Testfile nicht akzeptiert. 
+Testfall 8:(ErrorKeineSinnvolleSequenz)
+Die Sequenz enthaelt irgendeinen nicht vorgesehen Buchstaben.
+Testfall 9:(ErrorFalscheChromosomKoordinaten)
+Bei diesem Testfile ist das Ende der mutierten Sequenz kleiner als der Beginn und dies ist unmoeglich und 
+darf nicht akzeptiert werden.
+Testfall 10:(ErrorKeineMetadaten)
+In diesem Testfile gibt es eine Mutation fuer die keine Metadaten existieren.
+
+
+
+
+Beschreibung der Fehler in den Inputfiles:

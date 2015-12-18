@@ -1,0 +1,33 @@
+
+
+<Inputfile>::=<First_Part>, "$$", "\n", <Mutations_Part>, "$$", "\n", <Metadaten_Part>, EOF;
+
+<First_Part>::=<Genom>, <Source>;
+
+<Genom>::= "Referenzgenomname:", <String>, "\n";
+<Source>::="Quelle:", <String>, "\n";
+
+<Mutations_Part>::= <ID>, <Coordinates>, <Sequence>, { <Mutations_Part> } | ;
+
+<ID>::= "SampelID:", <String>, "\n";
+<Coordinates>::= "Genkoordinaten:", <Chromosom>, ":", <Integer>, ":", <Integer>, "\n";
+<Chromosom>::="Y" | "X" | <Ziffer>, <Ziffer>;
+<Sequence>::="Mutationssequenz", <Gen>, "\n";
+<Gen>::= "A", {<Gen>} | "G", {<Gen>} | "C", {<Gen>} | "T", {<Gen>} | "-", {"-"};
+
+<Metadaten_Part>::= <ID>, <Gender>, <Population>, <Download>, {<Metadaten_Part>} | ;
+
+<Gender>::= "Gender:", "m", "\n" | "Gender:", "f", "\n";
+<Population>::= "Population:", <Char>, <Char>, <Char>, "\n";
+<Download>::= "Download:", <Integer>, ":", <Integer>, ":", <Integer>, "\n";
+
+<Integer>::= 0| <Ziffer>, {<Integer>} ; 
+<Ziffer>::= 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9;
+<String>::= <Char>, {<Ziffer>}, {<Char>}, {<String>} | ;
+
+<Char>::="A"|"B"|"C"|"D"|"E"|"F"|"G"|"H"|"I"|"J"|"K"|"L"|"M"|"N"|"O"|"P"|"Q"|"R"|"S"|"T"|"U"|"V"|"W"|"X"|"Y"|"Z"
+|"a"|"b"|"c"|"d"|"e"|"f"|"g"|"h"|"i"|"j"|"k"|"l"|"m"|"n"|"o"|"p"|"q"|"r"|"s"|"t"|"u"|"v"|"w"|"x"|"y"|"z";
+
+ 
+Download ist daswegen noch ein Integer weil das Datum komplexer ist und somit schwer das ganze durch eine einfache Grammatik 
+darstellbar ist.

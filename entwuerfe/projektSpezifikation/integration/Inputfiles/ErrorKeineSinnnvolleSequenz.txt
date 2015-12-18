@@ -1,0 +1,11 @@
+Referenzgenomname:GRCh38
+Quelle:1000GenomeProjekt
+$$
+SampelID:GP0011
+Genkoordinaten:6:19:19
+Mutationssequenz:AGTKTAGTA
+$$
+SampelID:GP0011
+Gender:m
+Population:GRB
+Download:01:01:2001
