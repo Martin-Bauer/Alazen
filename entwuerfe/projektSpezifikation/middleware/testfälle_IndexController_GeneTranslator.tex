@@ -1,4 +1,5 @@
 \documentclass[]{article}
+\usepackage[utf8]{inputenc}
 
 
 
@@ -11,34 +12,63 @@
 \maketitle
 
 \section{IndexController}
-\subsection{Testfall 1 - answerQuery - einfache Intervallanfrage}
-Eingabe: 1,3,100,200\\
-Ausgabe: zum Intervall gehörende Mutationsobjekte 
+Um den IndexController zu testen wird ein Testprogramm genutzt, dass Anfragen stellt und das Ergebnis mit vorher manuell abgefragten Ergebnissen abgleicht:
+\begin{verbatim}
+import static org.junit.Assert.*;
+import java.io.*;
+import java.util.*;
 
-\subsection{Testfall 2 - answerQuery - komplexere Intervallanfrage}
-Eingabe: 1,3,100,200 ; 1,3,150,350\\
-Ausgabe: eine Mutationsliste mit den Ergebnissen beider Anfragen
-
-\subsection{Testfall 3 - answerQuery - unvollständige Intervallanfrage}
-Eingabe: 1,100,200\\
-Ausgabe: Fehlermeldung über unvollständige Anfrage
-
-\subsection{Testfall 4 - answerQuery - leere Anfrage}
-Eingabe: [...]\\
-Ausgabe: Fehlermeldung über leere Anfrage
-
-\subsection{Testfall 5 - answerQuery - überspezifizierte Intervallanfrage}
-Eingabe: 1,3,100,200,300,400\\
-Ausgabe: Fehlermeldung über überspezifizierte Anfrage
-
-\subsection{Testfall 6 - buildIndex - erfolgreicher Indexaufbau}
-Eingabe: [...] (Datenbank ist erreichbar)
-Ausgabe: Erfolgreich gebauter Index
-
-\subsection{Testfall 7 - buildIndex - erfolgloser Indexaufbau}
-Eingabe: [...] (Datenbank ist nicht erreichbar)
-Ausgabe: Fehlermeldung über erfolglosen Indexaufbau
+public class IndexTest {
+	public static void main(String[] args) throws IOException  {
+		QueryHandler x_QH = new QueryHandler();
+		File x_File = new File("./testQueries.txt");
+		FileReader x_FR = new FileReader(x_File);
+      	BufferedReader x_BR = new BufferedReader(x_FR);
+      	String query[] = new String[1];
+      	String answer = "";
+      	String result = "";
+      	Set<IntervalST.Node> x_Result = new HashSet<IntervalST.Node>();
+      	while ((query[0] = x_BR.readLine()) != null) {
+      		result = "";
+      		if ((answer = x_BR.readLine()) != null) {
+      			x_Result = x_QH.answerQuery(query);
+      			for (IntervalST.Node x_Node : x_Result) {
+      				result = result + x_Node.i_MutationID;
+    			}
+    			assertEquals(answer, result);		//compares expected answer and the result of the query
+      		} else {
+      			break;
+      		}
+      	}
+	}
+}
+\end{verbatim}
+Die Datei mit den Testdaten sieht folgendermaßen aus:
+\begin{verbatim}
+7775,7779
+0
+6463,6465
+13
+24141,24146
+5
+5323,5327
+11
+32445,32448
+21
+4535,4535
+2
+22550,22600
+1
+9700,10000
+19
+44000,45000
+15
+50000,60000
+7
+\end{verbatim}
 \newpage
+\end{document}
+
 \section{GeneTranslator}
 Der GeneTranslator hat 2 Aufgaben. Zum einen soll er während der Indexerstellung mit Inhalt (also Gennamen und zugeörigen Intervallen) befüllt werden, zum anderen soll eine Suche nach Gennamen in ihm möglich sein.
 
