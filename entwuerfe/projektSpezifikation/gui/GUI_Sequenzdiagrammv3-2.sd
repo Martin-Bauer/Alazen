@@ -1,0 +1,31 @@
+user:Actor
+lane:Lane[a]
+gui:GUIComponent[a]
+pro:DataProvider[a]
+back:Backend[a]
+
+# select a chromosom
+user:gui.select Chromosom
+gui:pro.getPosition(pos, zlvl, chr)
+pro:back.fetchData()
+gui:>lane.render()
+lane:stop
+gui:stop
+
+# select a chromosom
+user:gui.get Position
+gui:pro.getPosition(pos, zlvl, chr)
+pro:back.fetchData()
+gui:>lane.render()
+lane:stop
+gui:stop
+
+# search for a gene / position
+user:gui.search Gene
+gui:pro.searchGene(s)
+pro:back.fetchData()
+gui:pro.getPosition(pos, zlvl, chr)
+pro:back.fetchData()
+gui:>lane.render()
+lane:stop
+gui:stop

@@ -1,57 +1,92 @@
 \section{Frontend}
-\subsection{Mock-Ups der Benutzerschnittstelle}
-\includepicture[width=\textwidth]{gui/gb_mockup_detail_view.png}{Die Detail-Ansicht des Genom Browsers. In dieser Ansicht werden die Mutationen auf dem Referenz-Genom, fuer eine bessere Darstellung, abgebildet. Pro aktiver Quelle wird eine Lane angezeigt.}
-\includepicture[width=\textwidth]{gui/gb_mockup_index_view.png}{Die Aggregierte-Ansicht des Genom Browsers. In dieser Ansicht werden die Mutationen aggregiert dargestellt, fuer eine bessere Uebersicht auf dem Genom.Pro aktiver Quelle wird eine Lane angezeigt.}
-\subsection{Klassen-Diagramm}
-\includepicture[width=\textwidth]{gui/gui-klassendiagrammv2.png}{Das Klassen-Diagramm der GUI.}
-\paragraph{Erläuterung der Abbildung \ref{fig:Das Klassen-Diagramm der GUI.}}
-Die \textit{GUIComponent}-Klasse beinhaltet alle Komponenten der GUI und stellt die Kommunikation unter den Komponenten bereit. Die \textit{DaraProvider}-Klasse stellt die Methoden, für die Kommunikation zu der Middleware, bereit. Durch die \textit{LaneContainer}-Klasse werden die \textit{Lanes} erstellt. 
-\subsection{Sequenzdiagramm}
-\includepicture{gui/GUI_Sequenzdiagrammv2.png}{Anhand des Sequenzdiagramm wird der Methodenaufruf verdeutlicht.}
 \subsection{Use Cases}
+% Use-Case Diagramm
 \includepicture[width=\textwidth]{gui/gui-usecasediagrammv2.png}{Das Use-Case-Diagramm listet die Möglichkeiten der Interaktionen mit der GUI auf.}
+% Erläuterung
 \paragraph{Erläuterung des Use-Case (mit Bezug auf das Sequenzdiagramm)}
 Der Benutzer hat die Möglichkeit mit der GUI zu interagieren. Durch das Suchfeld hat der Benutzer die Möglichkeit nach einem Gen zu \textbf{suchen} oder sich eine(n) \textbf{Position / Bereich anzeigen lassen}. Zur genaueren Auswahl kann dieser sich eine \textbf{Chromosom auswählen}. Durch das \textbf{hinzufügen / entfernen} einer oder mehrerer Quellen, kann der Benutzer das Angezeigte weiter eingrenzen. Durch das \textbf{verändern des Zoom-Bereich} kann der Benutzer die Anzahl der angezeigten Basenpaare bestimmen. Durch einfaches \textbf{verschieben der Lane} ist es dem Benutzer möglich, den genauen Bereich zu bestimmen, den dieser betrachten möchte.
+
+\subsection{Mock-Ups der Benutzerschnittstelle}
+% Einleitung
+Die Mock-Ups werden durch folgende Elemente definiert:
+% Eläterung der Elemente
+\begin{description}
+	\item[1: Chromosom-Auswahl] Durch die Chromosom-Auswahl kann das zu betrachtende Chromosom ausgewählt werden. Auch als Information des aktuell angezeigten Chromosoms dient dieses Element.
+	\item[2: Idiogramm] Dieses Element dient als Karte zur Orientierung auf dem Chromosom. Es kann auch verwendet werden um an eine bestimmte Stelle im Chromosom zu gelangen.
+	\item[3: Suche/Position] Dieses Eingabefeld kann zur genauen Eingabe einer Position auf einem Chromosom oder zur Suche nach bestimmten Genen genutzt werden.
+	\item[4: Zoomregler] Durch den Zoomregler kann die Zoomstufe angepasst werden. Dieses Element besitzt sieben Zoomstufen, diese gehen von den Basenpaaren bis hin zu 10MB. 
+	\item[5: Quellen-Auswahl] Durch das auswählen der Quellen kann eine Lane (siehe 6) hinzugefügt werden oder auch abgewählt werden.
+	\item[6: Lanes] Diese Elemente dienen zur Darstellung der Mutationen. Pro aktiver Quelle wird eine Lane angezeigt. Durch die Zoomstufen werden die Lanes in zwei Darstellungen definiert:
+	\begin{description}
+		\item[a) detaillierte Darstellung] Auf den Lanes werden die Basenpaare angezeigt. Die Mutationen werden als farbige Stellen auf dem Referenzgenom markiert. Durch anklicken der Mutation-Stellen werden die Metadaten angezeigt.
+		\item[b) aggregierte Darstellung] Ab der Zoomstufe 2 werden die Mutationen aggregiert dargestellt. Durch diese Darstellung wird angezeigt wie viele Mutationen in einem Bereich (Intervall) vorkommen.
+	\end{description}
+\end{description}
+% Mock-Ups
+\includepicture[width=\textwidth]{gui/gb_mockup_detail_view_num.png}{Die Detail-Ansicht des Genom Browsers.}
+\includepicture[width=\textwidth]{gui/gb_mockup_index_view_num.png}{Die Aggregierte-Ansicht des Genom Browsers.}
+
+\subsection{Technologie und Klassenstruktur}
+% Einleitung
+Das Frontend ist eine Webapplikation, welche als Single Page App (SPA) implementiert ist. Die Darstellung der Inhalte und ihrer Interaktionsmöglichkeiten wird somit komplett im Benutzer-Client (Web Browser) durchgeführt. Daher basiert der Technologie-Stack auf JavaScript als Programmiersprache. Mit dem Backend wird über eine HTTP Schnittstelle kommuniziert, welche in Kapitel 4 näher erläutert wurde.\\
+Eine grundlegende Technologie der Applikation ist das JavaScript-Framework \texttt{React.JS}, welches zum Rendern der verschiedenen Bestandteile des Frontendes verwendet wird. Dabei handelt es sich nicht um ein klassisches MVC-Framework, sondern um eine deklarative Art die Applikation in kleinere Komponenten zu modularisieren, den Zustand dieser Komponenten zu beschreiben und automatisch im Markup (HTML) darzustellen. Updates an den präsentierten Daten führen somit direkt zur Änderung des Frontendes.\\
+% Erläuertung des Diagramms
+Bei einem Aufruf der Webseite werden zunächst alle benutzten JavaScript-Bibliotheken geladen, darunter \texttt{React.JS}. Als nächstes wird eine zentrale React-Komponente \textit{GUIComponent} als Klasse initialisiert, welche für den globalen Zustand der Applikation verantwortlich ist. Diese lädt zunächst alle benötigten Daten vom \textit{Backend} mittels des \textit{DataProvider}-Services. Dieser ist ein Singleton-Objekt (ähnlich einer statischen Klasse in Java), welcher die eigentlichen HTTP Requests durchführt, die asynchron eintreffenden Responses aufbereitet und an die \textit{GUIComponent} zurück leitet, wo sie gespeichert und dargestellt werden.\\
+Die \textit{GUIComponent} ist die Wurzel für einen Baum aus weiteren Komponenten ("View-Models"). Abhängig von den in der \textit{GUIComponent} gespeicherten Daten, werden Kind-Komponenten gerenderet, beispielsweise die \textit{Lane}-Klasse, welche eine Lane aus Mutationsdaten und dem Referenzgenom darstellt. Sobald in der \textit{GUIComponent} beispielsweise aktualisierte Mutationsdaten vorliegen, werden diese an die jeweilige \textit{Lane}-Komponente weitergegeben, diese darauf neu gerendert werden.\\
+Die meisten Komponenten verfügen außerdem über einen Event-Listener, um Benutzer-Interaktionen zu verarbeiten. Diese werden an die übergeordnete \textit{GUIComponent} weitergegeben und haben unter Umständen Einfluss auf den Gesamtzustand der Applikation. Gegebenenfalls ruft die \textit{GUIComponent} den \textit{DataProvider}-Service auf, um neue Daten aus dem \textit{Backend} abzufragen.\\
+% Klassendiagramm
+\includepicture[width=\textwidth]{gui/gui-klassendiagrammv2.png}{Das Klassen-Diagramm der GUI.}
+
+\subsection{Sequenzdiagramme}
+% Erläuterung 1
+In Abbildung 15 werden die Interaktionsmöglichkeiten des Users auf die \textit{Lane} beschrieben. Beim Bewegen der Lane und dem Zoomen der Lane findet jeweils eine Anfrage an das \textit{Backend} statt. Beim Auswählen der Quelle findet ebenfalls eine Anfrage an das \textit{Backend} statt und es wird eine neue \textit{Lane} angezeigt, jedoch wird beim entfernen einer Quelle lediglich die Lane ausgeblendet.
+% Sequenzdiagramm 1
+\includepicture[width=\textwidth]{gui/GUI_Sequenzdiagrammv3-1.png}{Das Sequenzdiagramm der Lane-Methoden und deren Verlauf.}
+% Erläuterung 2
+In Abbildung 16 wird die \textit{GUIComponent} direkt angesprochen. Wird ein Chromosom ausgewählt, so werden die Mutationdaten für die letzte Zoomstufe geholt und werden aggregiert dargestellt. Beim Eingeben einer Position oder einer Suche werden nur so viele Mutationdaten geholt, wie für die aktuelle Zoomstufe konfiguriert ist.
+% Sequenzdiagramm 2
+\includepicture[width=\textwidth]{gui/GUI_Sequenzdiagrammv3-2.png}{Das Sequenzdiagramm der GUIContainer-Methoden und deren Verlauf.}
+
 \subsection{Unit-Tests}
+Wie für dynamische Sprachen üblich, werden alle öffentlichen JavaScript-Funktionen mit Unit-Tests abgedeckt. Dabei kommt als Testing-Framework \texttt{jasmine} zusammen mit dem Test-Runner \texttt{Karma} zum Einsatz. Die React-Komponenten werden mithilfe der \texttt{ReactTestUtils} getestet.
+
+\subsection{Integration-Tests}
+Die folgenden Test-Szenarien werden mit einem Selenium-basierten E2E-Testframework automatisiert durchgeführt.
 \subsubsection{Suchfunktion}
 \begin{enumerate}
-	\item Wenn ich als Nutzer eine leere Suche starte, dann möchte ich eine entsprechende Fehlermeldung angezeigt bekommen.
-	\item Wenn ich eine Suche mit falscher Eingabe starte, dann möchte ich eine entsprechende Fehlermeldung angezeigt bekommen.
-	\item Wenn ich als Nutzer nach einem gültigen Intervall suche, dann wird automatisch die Zoomstufe auf dieses Intervall angepasst.
-	\item Wenn ich als Nutzer nach einem vorhandenem Gene suche, dann wird automatisch die Zoomstufe auf dieses Intervall angepasst.
+	\item Wenn der Benutzer eine leere Suche startet, dann soll er eine entsprechende Fehlermeldung angezeigt bekommen.
+	\item Wenn der Benutzer eine Suche mit falscher Eingabe startet, dann soll er eine entsprechende Fehlermeldung angezeigt bekommen.
+	\item Wenn der Benutzer nach einem gültigen Intervall sucht, dann wird automatisch die Zoomstufe auf dieses Intervall angepasst.
+	\item Wenn der Benutzer nach einem vorhandenem Gene sucht, dann wird automatisch die Zoomstufe auf dieses Intervall angepasst.
 \end{enumerate}
-
 
 \subsubsection{Quellen-Button}
 \begin{enumerate}
-	\item Wenn ich als Nutzer auf einen "Quellen"-Button drücke, dann wird mir die entsprechende Quelle zusätzlich zu den bereits dargestellten Quellen, angezeigt.
-	\item Wenn ich als Nutzer auf den "Quellen"-Button einer bereits angezeigten Quelle drücke, wird die entsprechende Quelle nicht mehr angezeigt.
+	\item Wenn der Benutzer auf einen Quellen-Button drückt, dann wird ihm die entsprechende Quelle zusätzlich zu den bereits dargestellten Quellen, angezeigt.
+	\item Wenn der Benutzer auf den Quellen-Button einer bereits angezeigten Quelle drückt, wird die entsprechende Quelle nicht mehr angezeigt.
 \end{enumerate}
 
 \subsubsection{Quellen-Scroller}
 \begin{enumerate}
-	\item Als Nutzer kann ich mich über horizontales Scrolling synchron durch die Quellen bewegen.
+	\item Als Benutzer kann man über horizontales Scrolling synchron durch die Quellen bewegen.
 \end{enumerate}
 
-\subsubsection{Zoom-slider}
+\subsubsection{Zoom-slider Szenario}
 \begin{enumerate}
-	\item Wenn ich die Zoomstufe über den Slider ändere, dann werden die Quellen entsprechend der eingestellten Stufe dargestellt.
-	\item Wenn ich als Nutzer die feinste Zoomstufe einstelle, dann werden mir die Basenpaare angezeigt.
-	\item Wenn ich als Nutzer eine andere Zoomstufe einstelle, dann werden mir aggregierten Daten angezeigt.
+	\item Wenn der Benutzer die Zoomstufe über den Slider ändert, dann werden die Quellen entsprechend der eingestellten Stufe dargestellt.
+	\item Wenn der Benutzer die feinste Zoomstufe einstellt, dann werden ihm die Basenpaare angezeigt.
+	\item Wenn der Benutzer eine andere Zoomstufe einstellt, dann werden ihm aggregierten Daten angezeigt.
 \end{enumerate}
 
 \subsubsection{Chromosom-Auswahl}
 \begin{enumerate}
-	\item Als Nutzer kann ich über ein Dropdown aus einer Vorauswahl von Chromosomen auswählen.
-	\item Wenn ich als Nutzer ein Chromosom auswähle, dann wird die Quellen-Anzeige automatisch entsprechend des ausgewählten Chromosoms aktualisiert.
-	\item Wenn ich als Nutzer das bereits ausgewählte Chromosom erneut auswählen, dann passiert nichts.
+	\item Als Benutzer kann man über ein Dropdown aus einer Vorauswahl von Chromosomen auswählen.
+	\item Wenn der Benutzer ein Chromosom auswählt, dann wird die Quellen-Anzeige automatisch entsprechend des ausgewählten Chromosoms aktualisiert.
+	\item Wenn der Benutzer das bereits ausgewählte Chromosom erneut auswählt, dann passiert nichts.
 \end{enumerate}
 
 \subsubsection{Allgemein}
 \begin{enumerate}
-	\item Wenn ich als Nutzer auf eine Anfrage warten muss, wird mir dies durch einen Loading-Spinner signalisiert.	
+	\item Wenn der Benutzer auf eine Anfrage warten muss, wird ihm dies durch einen Loading-Spinner signalisiert.	
 \end{enumerate}
 \newpage
-
-%\section{Integrationstest}
-%\subsection{Ablauf der Integrationstests}

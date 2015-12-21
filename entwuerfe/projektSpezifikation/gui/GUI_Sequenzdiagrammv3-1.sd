@@ -1,0 +1,28 @@
+user:Actor
+lane:Lane[a]
+gui:GUIComponent[a]
+pro:DataProvider[a]
+back:Backend[a]
+#-----------------
+# move lane
+user:lane.move Lane
+lane:gui.handleMove(pos)
+gui:pro.getPosition(pos, zlvl, chr)
+pro:back.fetchData()
+gui:stop
+
+# zoom on lane
+user:lane.zoom Lane
+lane:gui.handleZoom(zlvl)
+gui:pro.getPosition(pos, zlvl, chr)
+pro:back.fetchData()
+gui:stop
+
+# add a source
+user:lane.select Source
+lane:gui.handleSource(src, opt)
+gui:pro.getPosition(pos, zlvl, chr)
+pro:back.fetchData()
+gui:stop
+
+
