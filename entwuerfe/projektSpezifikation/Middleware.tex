@@ -186,139 +186,127 @@ Hierfür wird ein Testprogramm geschrieben, dass Anfragen im korrekten Format st
 
 \newpage
 \subsection{Unit-Tests}
+Zum testen der Daten wurde eine Testdatenbank mit 21 Mutationen erstellt, die als Referenzdatenbank für die Testfälle gnutzt wird.
 \subsubsection{QueryReceiver}
-\textbf{Testfall 1 - erfolgreiche Intervallanfrage ohne Metadaten}
+\textbf{Testfall 1 - Intervallanfrage ohne Details}
 \begin{verbatim}
-  Eingabe
+Anfrage:
 {
-  "source": The Cancer Atlas,\usepackage[utf8]{inputenc}
-  "chromosome": 3,
-  "position": {"from": 100, "to": 200},
-  "zoom": 1,
-  "subindex": ,
-  "hasDetail": (false)
+" source " : dbSNP
+" chromosome " : 8,
+" position " : { " from " : 7000 , " to " : 50000 } ,
+" zoom " : 50000,
+" subindex " : 1000 ,
+" hasDetail " : false
 }
 
-  Ausgabe
+Antwort:
 {
-  {
-    "source:" The Cancer Atlas,
-    "chromosome": 3,
-    "position": {"from": 100, "to": 200},
-    "details": { "refseq": ,
-                "mutations": [{ "name": ,
-                                "position": {"from": , "to": },
-                                "metadata":
-                              },]},
-    "graph": {
-              { "subintervall": Anzahl der Subintervalle,
-                "counts": Anzahl der Ergebnisse
-              }
-            }
-  }
+" source : " dbSNP ,
+" chromosome " : 8 ,
+" position " : { " from " : 7000 , " to " : 50000 } ,
+" details " : {} ,
+" graph " : {
+    { " subintervall " : 0 ,
+	" counts " : 0
+	},
+	{...},
+	{ " subintervall " : 16 ,
+	" counts " : 1
+	},
+	{...},
+	{ " subintervall " : 55 ,
+	" counts " : 1
+	},
+	{...},
+	{ " subintervall " : 1000 ,
+	" counts " : 0
+	}
+}
 }
 \end{verbatim}
-\textbf{Testfall 2 - erfolgreiche Intervallanfrage mit Metadaten}
+\textbf{Testfall 2 - Intervallanfrage mit Details}
 \begin{verbatim}
-  Eingabe
+Anfrage:
 {
-  "source": The Cancer Atlas,
-  "chromosome": 3,
-  "position": {"from": 100, "to": 200},
-  "zoom": 1,
-  "subindex": ,
-  "hasDetail": (true)
+" source " : dbSNP
+" chromosome " : 8,
+" position " : { " from " : 7000 , " to " : 10000 } ,
+" zoom " : 5000,
+" subindex " : 100 ,
+" hasDetail " : true
 }
 
-  Ausgabe
+Antwort:
 {
-  {
-    "source:" The Cancer Atlas,
-    "chromosome": 3,
-    "position": {"from": 100, "to": 200},
-    "details": { "refseq": Referenzsequenz,
-                "mutations": [{Mutation1},{Mutation2},...]},
-    "graph": {
-              { "subintervall": ,
-                "counts":
-              }
-            }
-  }
+" source : " dbSNP ,
+" chromosome " : 8 ,
+" position " : { " from " : 7000 , " to " : 50000 } ,
+" details " : { " refseq " : Refseq ,
+" mutations " : [{ " name " : GRCh37 ,
+" position " : { " from " : 7775 , " to " : 7779 } ,
+" metadata " : {gender: "M",
+population: "ITU",
+downloadtime: "2015-01-14"}
+} 
+" name " : GRCh37],
+" position " : { " from " : 9755 , " to " : 7759 } ,
+" metadata " : {gender: "M",
+population: "ACB",
+downloadtime: "2015-04-25"}
+} ,
+" graph " : {}
 }
 \end{verbatim}
-\textbf{Testfall 3 - Intervallanfrage mit leerer Antwortmenge}
+\textbf{Testfall 3 - Intervallanfrage mit leerer Ergebnismenge}
 \begin{verbatim}
-  Eingabe
+Anfrage:
 {
-  "source": The Cancer Atlas,
-  "chromosome": 3,
-  "position": {"from": 100, "to": 200},
-  "zoom": 1,
-  "subindex": ,
-  "hasDetail": (true)
+" source " : 1kGenomeProjekt
+" chromosome " : 6,
+" position " : { " from " : 1000 , " to " : 2000 } ,
+" zoom " : 1000,
+" subindex " : 20 ,
+" hasDetail " : true
 }
 
-  Ausgabe
+Antwort:
 {
-  {
-    "source:" The Cancer Atlas,
-    "chromosome": 3,
-    "position": {"from": 100, "to": 200},
-    "details": { "refseq": ,
-                "mutations": ...},
-    "graph": {
-              { "subintervall": ,
-                "counts":
-              }
-            }
-  }
+" source : " dbSNP ,
+" chromosome " : 8 ,
+" position " : { " from " : 7000 , " to " : 50000 } ,
+" details " : {} ,
+" graph " : {
+}
 }
 \end{verbatim}
-\newpage\hfill\\
-\textbf{Testfall 4 - erfolgreiche Namensanfrage}
+\newpage\hfill\\ 
+%\textbf{Testfall 4 - Namensanfrage ohne Details}
+%\begin{verbatim}
+%\end{verbatim}
+%\textbf{Testfall 5 - Namensanfrage mit}
+%\begin{verbatim}
+%\end{verbatim}
+%\textbf{Testfall 6 - Namensanfrage mit leerer Ergebnismenge}
+%\begin{verbatim}
+%\end{verbatim}
+%\textbf{Testfall 7 - Präfixanfrage mit nichtleerer Ergebnismenge}
+%\begin{verbatim}
+%\end{verbatim}
+%\textbf{Testfall 8 - Präfixanfrage mit leerer Ergebnismenge}
+%\begin{verbatim}
+%\end{verbatim}
+\textbf{Testfall 9 - Anfrage ohne erkennbares Anfrageformat}
 \begin{verbatim}
-  Eingabe
+Anfrage:
 {
-  "source": The Cancer Atlas,
-  "chromosome": 3,
-  "search": "Gen im Cancer Atlas"
+" source " : dbSNP ,
+" position " : { " from " : 10 , " to " : 20 } ,
+" hasDetail " : ( true)
 }
-
-  Ausgabe
+Antwort:
 {
-  "source": The Cancer Atlas,
-  "chromosome": 3,
-  "search": "Gen im Cancer Atlas",
-  "position": {"from": Startposition, "to": Endposition}
-}
-\end{verbatim}
-\textbf{Testfall 5 - Namensanfrage mit leerer Antwortmenge}
-\begin{verbatim}
-  Eingabe
-{
-  "source": The Cancer Atlas,
-  "chromosome": 3,
-  "search": "Gen, dass nicht im Cancer Atlas ist"
-}
-
-  Ausgabe
-{
-  "source": The Cancer Atlas,
-  "chromosome": 3,
-  "search": "Gen im Cancer Atlas",
-  "position": " "
-}
-\end{verbatim}
-\textbf{Testfall 6 - fehlerhafte Anfrage}
-\begin{verbatim}
-  Eingabe
-{
-  "source": ""
-}
-
-  Ausgabe
-{
-  "answer": "unknown format"
+" source : " dbSNP ,
 }
 \end{verbatim}
 \newpage
@@ -392,11 +380,13 @@ Eingabe: [...]\\
 Ausgabe: Fehlermeldung über  parameterlosen Aufruf\\
 \\
 \textbf{Testfall 4 - tranlateToIntervall - erfolgreiche Suche}\\
-Eingabe: Testgen (befindet sich bereits in Datenstruktur)\\
+Vorbereitung: addGene(Testgen, 350, 500)\\
+Eingabe: Testgen \\
 Ausgabe: 350, 500\\
 \\
 \textbf{Testfall 5 - tranlateToIntervall - erfolglose Suche}\\
-Eingabe: Testgen2 (befindet sich nich in Datenstruktur)\\
+Vorbereitung: assert GeneTranslator.contains(Testgen2)==false\\
+Eingabe: Testgen2 \\
 Ausgabe: Fehlermeldung über erfolglose Suche\\
 \\
 \textbf{Testfall 6 - tranlateToIntervall - Aufruf ohne Parameter}\\
@@ -404,15 +394,18 @@ Eingabe: [...]\\
 Ausgabe: Fehlermeldung über Parameterlosen Aufruf\\
 \\
 \textbf{Testfall 7 - completeGeneName - erfolgreiche Suche mit einem Ergebnis}\\
-Eingabe: Test (Testgen1 befindet sich bereits in Datenstruktur)\\
+Vorbereitung: addGene(Testgen1, 100, 200)\\
+Eingabe: Test\\
 Ausgabe: Testgen1\\
 \\
 \textbf{Testfall 8 - completeGeneName - erfolgreiche Suche mit mehreren Ergebnissen}\\
-Eingabe: Test (Testgen1 und Testgen2 befinden sich bereits in Datenstruktur)\\
+Vorbereitung: addGene(Testgen1, 100, 200); addGene(Testgen2, 150, 300)\\
+Eingabe: Test\\
 Ausgabe: Testgen1, Testgen2\\
 \\
 \textbf{Testfall 9 - completeGeneName - erfolglose Suche}\\
-Eingabe: Test (Es befindet sich kein Gen mit Präfix Test in der Datenstruktur)\\
+Vorbereitung: assert(GeneTranslator.containsPrefix(Test)==false)\\
+Eingabe: Test\\
 Ausgabe: Fehlermeldung über erfolglose Suche
 \subsubsection{Intervallbaum}
 \textbf{1. Intervalle einfügen:}\\
